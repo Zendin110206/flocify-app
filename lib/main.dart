@@ -7,8 +7,23 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:proyek_flocify/core/screens/auth_wrapper.dart'; // import baru
+import 'package:logging/logging.dart';
+import 'package:flutter/foundation.dart'; // Untuk mengecek mode debug
 
 void main() async {
+  Logger.root.level = Level.ALL; // Atur level logging
+  Logger.root.onRecord.listen((record) {
+    // Tampilkan log HANYA saat dalam mode debug
+    if (kDebugMode) {
+      print(
+        '${record.level.name}: ${record.time}: ${record.loggerName}: ${record.message}',
+      );
+    }
+  });
+
+  // Penjelasan: Kode ini memerintahkan aplikasi: "Setiap kali ada pesan log dari mana pun di aplikasi, tampilkan pesan itu ke konsol, tapi hanya jika aplikasi sedang dalam mode debug." Dengan begini, log tidak akan muncul saat aplikasi sudah di-rilis.
+
+
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 

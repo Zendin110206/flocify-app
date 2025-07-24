@@ -14,7 +14,7 @@ class PostDetailScreen extends ConsumerWidget {
   final String postId;
   final scaffoldBackgroundColor = const Color.fromARGB(255, 244, 242, 242);
 
-  PostDetailScreen({super.key, required this.postId});
+  const PostDetailScreen({super.key, required this.postId});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

@@ -3,7 +3,11 @@
 <plist version="1.0">
 <dict>
 	<key>NSCameraUsageDescription</key>
-	<string>Aplikasi ini memerlukan akses kamera untuk memindai QR code pada alat Flocify Anda.</string>
+	<string>Aplikasi ini memerlukan akses kamera untuk keperluan keberlangsungan fitur</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Aplikasi ini memerlukan akses galeri untuk memilih foto ikan untuk deteksi penyakit.</string>
+	<key>NSMicrophoneUsageDescription</key>
+<string>Aplikasi ini memerlukan akses ke mikrofon jika Anda ingin merekam video (opsional).</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>

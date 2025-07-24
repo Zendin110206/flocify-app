@@ -52,7 +52,7 @@ class CategorySection extends ConsumerWidget {
                       // Jika ya, navigasi ke FloraHomeScreen
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) => const FloraApp(),
+                          builder: (context) => const FloraHomeScreen(),
                         ),
                       );
                     } else if (category['title'] == 'Forum') {
