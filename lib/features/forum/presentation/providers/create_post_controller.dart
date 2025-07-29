@@ -98,12 +98,6 @@ class CreatePostController extends StateNotifier<CreatePostState> {
       final repository = _ref.read(forumRepositoryProvider);
       final authorId = _ref.read(currentUserIdProvider);
 
-      // 2. Menambahkan pengecekan null
-      if (authorId == null) {
-        // Jika user tidak login, lempar error agar bisa ditangkap oleh 'catch'
-        throw Exception('Sesi Anda telah berakhir. Silakan login kembali.');
-      }
-      
       await repository.addPost(
         authorId: authorId,
         title: state.title.trim(),

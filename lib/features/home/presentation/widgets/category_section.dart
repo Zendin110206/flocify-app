@@ -4,6 +4,7 @@ import '../providers/home_providers.dart';
 
 import 'package:proyek_flocify/features/forum/presentation/screens/forum_screen.dart';
 import 'package:proyek_flocify/features/flora/presentation/screens/flora_home_screen.dart';
+import 'package:proyek_flocify/features/price/presentation/screens/home_screen.dart';
 
 class CategorySection extends ConsumerWidget {
   const CategorySection({super.key});
@@ -60,6 +61,13 @@ class CategorySection extends ConsumerWidget {
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) => const ForumScreen(),
+                        ),
+                      );
+                    } else if (category['title'] == 'Harga') {
+                      // <-- TAMBAHKAN KONDISI INI
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const HomeScreen(),
                         ),
                       );
                     } else {

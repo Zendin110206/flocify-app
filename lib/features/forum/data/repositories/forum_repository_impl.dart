@@ -8,6 +8,8 @@ import '../../domain/models/forum_reply.dart';
 import '../../domain/repositories/forum_repository.dart';
 import '../../domain/models/commodity.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:proyek_flocify/features/users/domain/models/user_profile.dart'
+    show UserRole;
 
 /// A fake implementation of [ForumRepository] for UI development and testing.
 /// This class simulates network latency and returns dummy data.
@@ -286,19 +288,44 @@ class FakeForumRepository implements ForumRepository {
     print('SUCCESS: User $userId vote pada balasan $replyId (isLike: $isLike)');
   }
 
+  // KODE BARU YANG SUDAH DIPERBAIKI
   @override
   Future<List<UserProfile>> searchUsersForMention({
     required String query,
   }) async {
     await Future.delayed(const Duration(milliseconds: 200));
     if (query.isEmpty) return [];
+
+    // Buat data dummy yang sesuai dengan model UserProfile BARU
     final dummyUsers = [
-      UserProfile(id: 'user123', name: 'Aceng'),
-      UserProfile(id: 'user456', name: 'Budi'),
-      UserProfile(id: 'user789', name: 'Siti'),
+      UserProfile(
+        uid: 'user123',
+        fullName: 'Aceng',
+        email: 'aceng@mail.com',
+        phoneNumber: '123',
+        role: UserRole.farmer,
+      ),
+      UserProfile(
+        uid: 'user456',
+        fullName: 'Budi',
+        email: 'budi@mail.com',
+        phoneNumber: '456',
+        role: UserRole.buyer,
+      ),
+      UserProfile(
+        uid: 'user789',
+        fullName: 'Siti',
+        email: 'siti@mail.com',
+        phoneNumber: '789',
+        role: UserRole.supplier,
+      ),
     ];
+
+    // Gunakan field 'fullName' yang baru untuk filtering
     return dummyUsers
-        .where((user) => user.name.toLowerCase().contains(query.toLowerCase()))
+        .where(
+          (user) => user.fullName.toLowerCase().contains(query.toLowerCase()),
+        )
         .toList();
   }
 

@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../providers/pond_providers.dart';
-import '../tabs/ringkasan_tab.dart';
-import '../tabs/kolam_tab.dart';
-import '../tabs/transaksi_tab.dart';
-import '../tabs/analisis_tab.dart';
+import 'tabs/ringkasan_tab.dart';
+import 'tabs/kolam_tab.dart';
+import 'tabs/transaksi_tab.dart';
+import 'tabs/analisis_tab.dart';
 
 /// ===================================================================
 /// MANAGEMENT SCREEN  –  Versi Hybrid (kembali ke look awal + polish)

@@ -55,7 +55,7 @@ class FloraHomeScreen extends StatelessWidget {
                       // Tombol Kembali
                       Container(
                         decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.3),
+                          color: Colors.white.withAlpha((0.3*255).round()),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: IconButton(
@@ -79,7 +79,7 @@ class FloraHomeScreen extends StatelessWidget {
                       // Tombol Riwayat
                       Container(
                         decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.3),
+                          color: Colors.white.withAlpha((0.3*255).round()),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: IconButton(

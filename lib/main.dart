@@ -1,19 +1,22 @@
 // lib/main.dart
 
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:proyek_flocify/core/screens/auth_wrapper.dart'; // import baru
 import 'package:logging/logging.dart';
-import 'package:flutter/foundation.dart'; // Untuk mengecek mode debug
+import 'package:flutter/foundation.dart';
+
+import 'package:proyek_flocify/firebase_options.dart';
+import 'package:proyek_flocify/core/screens/auth_wrapper.dart';
 
 void main() async {
-  Logger.root.level = Level.ALL; // Atur level logging
+  // Atur level logging
+  Logger.root.level = Level.ALL;
   Logger.root.onRecord.listen((record) {
-    // Tampilkan log HANYA saat dalam mode debug
     if (kDebugMode) {
       print(
         '${record.level.name}: ${record.time}: ${record.loggerName}: ${record.message}',
@@ -21,14 +24,27 @@ void main() async {
     }
   });
 
-  // Penjelasan: Kode ini memerintahkan aplikasi: "Setiap kali ada pesan log dari mana pun di aplikasi, tampilkan pesan itu ke konsol, tapi hanya jika aplikasi sedang dalam mode debug." Dengan begini, log tidak akan muncul saat aplikasi sudah di-rilis.
-
-
+  // Pastikan semua binding framework siap sebelum menjalankan kode async.
   WidgetsFlutterBinding.ensureInitialized();
+
+  // BLOK KODE INI UNTUK MENGUNCI ORIENTASI, CUMAN VERTIKAL DOANK
+  // =======================================================
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
+  // =======================================================
+
+  // Muat environment variables dari file .env
+  await dotenv.load(fileName: ".env");
+
+  // Inisialisasi Firebase
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
+  // Inisialisasi format tanggal untuk lokalisasi Indonesia
   await initializeDateFormatting('id_ID', null);
 
+  // Jalankan aplikasi dengan Riverpod sebagai root
   runApp(const ProviderScope(child: MyApp()));
 }
 
@@ -44,7 +60,6 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.lightBlue),
         useMaterial3: true,
       ),
-
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
@@ -53,8 +68,7 @@ class MyApp extends StatelessWidget {
       supportedLocales: const [
         Locale('id', 'ID'), // Indonesia
       ],
-      // Di sini kita memberitahu aplikasi bahwa halaman pertamanya
-      // adalah LoginPage yang sudah kita buat.
+      // Gerbang utama aplikasi adalah AuthWrapper
       home: const AuthWrapper(),
     );
   }

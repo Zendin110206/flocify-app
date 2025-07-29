@@ -37,7 +37,7 @@ samples, guidance on mobile development, and a full API reference.
 
 ## 📸 Screenshot Aplikasi
 
-| Halaman Home                               | Halaman Manajemen                    | Alur Onboarding                      |
+| Halaman Home                               | Halaman Manajemen                    |  
 | ------------------------------------------ | ------------------------------------ | ------------------------------------ |
 | ![alt text](home.png) |  ![Management](image.png)|
 

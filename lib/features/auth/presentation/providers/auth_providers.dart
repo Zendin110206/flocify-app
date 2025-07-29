@@ -1,55 +1,130 @@
-// lib/features/auth/presentation/providers/auth_providers.dart
+// Path: lib/features/auth/presentation/providers/auth_providers.dart (VERSI PERBAIKAN)
 
+import 'package:firebase_auth/firebase_auth.dart'; // Pastikan ini diimpor
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../data/repositories/auth_repository_impl.dart';
 import '../../domain/repositories/auth_repository.dart';
 import '../../domain/usecases/sign_in_usecase.dart';
 import '../../domain/usecases/sign_out_usecase.dart';
+import '../../domain/usecases/sign_up_usecase.dart';
 
-/// Provides the UID of the currently logged-in user.
-///
-/// In the future, this will be connected to a real Firebase Auth state listener.
-/// For now, it returns a hardcoded ID for development purposes.
-final currentUserIdProvider = Provider<String?>((ref) {
-  // ! Placeholder: Ganti dengan logika autentikasi yang sebenarnya nanti.
-  return 'Muhammad Zaenal Abidin Abdurrahman'; // Gunakan ID yang lebih unik untuk testing
+// ===================================================================
+// SUMBER KEBENARAN OTENTIKASI (Authentication Truth Source)
+// ===================================================================
+
+/// Provider ini adalah SATU-SATUNYA yang langsung berkomunikasi
+/// dengan Firebase Auth untuk status login. Semua provider lain
+/// yang butuh tahu status login HARUS bergantung pada ini.
+final authStateProvider = StreamProvider.autoDispose<User?>((ref) {
+  return FirebaseAuth.instance.authStateChanges();
 });
 
-// 1. Provider untuk Repository
+/// Provider untuk mendapatkan UID pengguna yang SEDANG LOGIN.
+/// Ini akan gagal (throw error) jika dipanggil saat tidak ada pengguna yang login.
+/// Ini adalah perilaku yang DIINGINKAN, karena memaksa kita untuk hanya
+/// memanggilnya dari tempat yang aman (di belakang layar login).
+final currentUserIdProvider = Provider<String>((ref) {
+  // .watch() akan membuat provider ini otomatis update jika status login berubah.
+  final user = ref.watch(authStateProvider).value;
+
+  // Jika ada user, kembalikan UID-nya.
+  if (user != null) {
+    return user.uid;
+  }
+  // Jika user null, lempar error. Ini akan membantu kita menemukan bug
+  // di mana kita mencoba mengakses data user padahal sudah logout.
+  throw Exception('User is not logged in, cannot get user ID.');
+});
+
+// ===================================================================
+// LAPISAN REPOSITORY & USE CASE (Tidak ada perubahan)
+// ===================================================================
+
 final authRepositoryProvider = Provider<AuthRepository>((ref) {
   return AuthRepositoryImpl();
 });
 
-// 2. Provider untuk Use Case
 final signInUseCaseProvider = Provider<SignInUseCase>((ref) {
   final repository = ref.watch(authRepositoryProvider);
   return SignInUseCase(repository);
 });
 
-// 3. Provider untuk State Controller (Pengganti _isLoading)
-final loginControllerProvider =
-    StateNotifierProvider<LoginController, AsyncValue<void>>((ref) {
-      return LoginController(ref.watch(signInUseCaseProvider));
-    });
-
-// Provider untuk SignOut UseCase
 final signOutUseCaseProvider = Provider<SignOutUseCase>((ref) {
   final repository = ref.watch(authRepositoryProvider);
   return SignOutUseCase(repository);
 });
 
-class LoginController extends StateNotifier<AsyncValue<void>> {
-  final SignInUseCase _signInUseCase;
-  LoginController(this._signInUseCase) : super(const AsyncData(null));
+final signUpUseCaseProvider = Provider<SignUpUseCase>((ref) {
+  final repository = ref.watch(authRepositoryProvider);
+  return SignUpUseCase(repository);
+});
 
-  Future<void> signIn(String email, String password) async {
+// ===================================================================
+// CONTROLLER UNTUK INTERAKSI UI (Login & Signup)
+// ===================================================================
+
+final loginControllerProvider =
+    StateNotifierProvider.autoDispose<LoginController, AsyncValue<void>>((ref) {
+      // Sekarang kita inject ref agar controller bisa memanggil use case lain jika perlu.
+      return LoginController(ref);
+    });
+
+class LoginController extends StateNotifier<AsyncValue<void>> {
+  final Ref _ref;
+  LoginController(this._ref) : super(const AsyncData(null));
+
+  Future<bool> signIn(String email, String password) async {
     state = const AsyncLoading();
     try {
-      await _signInUseCase.call(email: email, password: password);
+      // Baca use case di dalam method, bukan di constructor.
+      final signInUseCase = _ref.read(signInUseCaseProvider);
+      final user = await signInUseCase.call(email: email, password: password);
+
+      if (user == null) {
+        throw Exception('Email atau kata sandi salah.');
+      }
+
       state = const AsyncData(null);
+      return true;
     } catch (e) {
       state = AsyncError(e, StackTrace.current);
+      return false;
     }
+  }
+}
+
+final signupControllerProvider =
+    StateNotifierProvider.autoDispose<SignupController, AsyncValue<void>>((
+      ref,
+    ) {
+      return SignupController(ref);
+    });
+
+class SignupController extends StateNotifier<AsyncValue<void>> {
+  final Ref _ref;
+  SignupController(this._ref) : super(const AsyncData(null));
+
+  Future<User?> signUpAndReturnUser(String email, String password) async {
+    state = const AsyncLoading();
+    try {
+      final signUpUseCase = _ref.read(signUpUseCaseProvider);
+      // Panggil use case
+      final user = await signUpUseCase.call(email: email, password: password);
+      // Set state berhasil
+      state = const AsyncData(null);
+      // Kembalikan objek User
+      return user;
+    } catch (e, stackTrace) {
+      // Tambahkan stackTrace
+      state = AsyncError(e, stackTrace);
+      // Kembalikan null jika gagal
+      return null;
+    }
+  }
+
+  // Tambahkan method ini untuk menangani error dari luar
+  void setError(Object e, StackTrace s) {
+    state = AsyncError(e, s);
   }
 }

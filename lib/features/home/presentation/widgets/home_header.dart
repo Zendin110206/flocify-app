@@ -1,8 +1,12 @@
-// lib/features/home/presentation/widgets/home_header.dart
+// Path: lib/features/home/presentation/widgets/home_header.dart (VERSI FINAL & BENAR)
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:proyek_flocify/features/auth/presentation/providers/auth_providers.dart';
+
+// --- IMPORT YANG DIPERLUKAN ---
+import 'package:proyek_flocify/features/onboarding/presentation/screens/welcome_screen.dart';
+// -----------------------------
 
 class HomeHeader extends ConsumerWidget {
   const HomeHeader({super.key});
@@ -30,11 +34,28 @@ class HomeHeader extends ConsumerWidget {
               Image.asset('assets/images/logo_flocify_putih.png', height: 35),
               Row(
                 children: [
-                  _buildHeaderIcon(Icons.notifications_outlined, () {}),
-                  const SizedBox(width: 12),
-                  _buildHeaderIcon(Icons.logout, () {
-                    ref.read(signOutUseCaseProvider).call();
+                  _buildHeaderIcon(Icons.notifications_outlined, () {
+                    // TODO: Implementasi halaman notifikasi
                   }),
+                  const SizedBox(width: 12),
+
+                  // --- PERUBAHAN LOGIKA LOGOUT DI SINI ---
+                  _buildHeaderIcon(Icons.logout, () async {
+                    // 1. Panggil use case untuk sign out dari Firebase
+                    await ref.read(signOutUseCaseProvider).call();
+
+                    // 2. Setelah berhasil, navigasi EKSPLISIT ke WelcomeScreen
+                    //    dan hapus semua layar di belakangnya.
+                    if (context.mounted) {
+                      Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(
+                          builder: (context) => const WelcomeScreen(),
+                        ),
+                        (Route<dynamic> route) => false,
+                      );
+                    }
+                  }),
+                  // ----------------------------------------
                 ],
               ),
             ],
@@ -51,7 +72,7 @@ class HomeHeader extends ConsumerWidget {
         width: 32,
         height: 32,
         decoration: BoxDecoration(
-          color: Colors.white.withAlpha((0.9*255).round()),
+          color: Colors.white.withAlpha((230)), // Sedikit lebih opaque
           shape: BoxShape.circle,
         ),
         child: Icon(icon, color: const Color(0xFF292D32), size: 20),

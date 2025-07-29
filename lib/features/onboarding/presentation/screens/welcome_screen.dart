@@ -1,130 +1,152 @@
 // lib/features/onboarding/presentation/screens/welcome_screen.dart
 
 import 'package:flutter/material.dart';
-import 'package:proyek_flocify/features/auth/presentation/screens/login_screen.dart';
-import 'qr_scanner_screen.dart';
+import 'login_screen.dart';
+import 'signup_screen.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
+    const Color primaryColor = Color(0xFF1E88E5);
+    // Dapatkan tinggi layar untuk memastikan layout bisa memenuhi layar
+    final screenHeight = MediaQuery.of(context).size.height;
+    final paddingTop = MediaQuery.of(context).padding.top;
 
     return Scaffold(
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(24.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              // Header
-              Row(
+        // 1. Tambahkan SingleChildScrollView agar layar bisa di-scroll dan tahan terhadap keyboard
+        child: SingleChildScrollView(
+          child: ConstrainedBox(
+            // 2. Pastikan Column memiliki tinggi minimal setinggi layar
+            // Ini membuat konten tetap terlihat bagus di layar yang lebih besar
+            constraints: BoxConstraints(minHeight: screenHeight - paddingTop),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              // 3. Hapus 'Expanded' dan atur alignment Column
+              child: Column(
+                // Gunakan spaceBetween untuk mendorong konten ke atas dan bawah
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    'Flocify',
-                    style: textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      // TODO: Implement language change
-                    },
-                    child: const Text('Ganti Bahasa'),
-                  ),
-                ],
-              ),
+                  // Widget kosong untuk memberikan sedikit ruang di atas
+                  const SizedBox(),
 
-              // Main Content
-              Column(
-                children: [
-                  Container(
-                    height: 200,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: const Center(child: Text('Banner Ilustrasi')),
-                  ),
-                  const SizedBox(height: 32),
-                  Text(
-                    'Welcome to Flocify!',
-                    style: textTheme.headlineSmall?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 16),
-                  Text(
-                    'Your pond partner app for sustainable farm. We\'re here to help with all your needs, and maximize your productivity.',
-                    style: textTheme.bodyLarge?.copyWith(
-                      color: Colors.grey[600],
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ],
-              ),
-
-              // Footer Actions
-              Column(
-                children: [
-                  SizedBox(
-                    width: double.infinity,
-                    child: FilledButton(
-                      style: FilledButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
+                  // --- KONTEN ATAS ---
+                  // Kelompokkan konten atas dalam satu Column
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                        width: 100,
+                        height: 100,
+                        decoration: BoxDecoration(
+                          color: primaryColor,
+                          borderRadius: BorderRadius.circular(20),
                         ),
-                        backgroundColor: const Color(
-                          0xFF63C5EA,
-                        ), // Warna biru dari mockup
-                      ),
-                      onPressed: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => const QRScannerScreen(),
-                          ),
-                        );
-                      },
-                      child: const Text('Scan QR Code Alat Kamu!'),
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  SizedBox(
-                    width: double.infinity,
-                    child: OutlinedButton(
-                      style: OutlinedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
+                        child: const Icon(
+                          Icons.water_drop,
+                          size: 50,
+                          color: Colors.white,
                         ),
                       ),
-                      onPressed: () {
-                        // Navigasi ke halaman login yang sudah ada
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => const LoginScreen(),
-                          ),
-                        );
-                      },
-                      child: const Text('Sudah punya akun? Login'),
-                    ),
+                      const SizedBox(height: 32),
+                      Text(
+                        'Selamat Datang di Flocify',
+                        style: TextStyle(
+                          fontSize: 28,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.grey.shade800,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 16),
+                      Text(
+                        'Solusi cerdas untuk akuakultur modern.\nTingkatkan produktivitas dan keuntungan Anda.',
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.grey.shade600,
+                          height: 1.5,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: 16),
-                  Text(
-                    'By logging in or registering, you agree to our Terms of Service and Privacy Policy.',
-                    style: textTheme.bodySmall?.copyWith(
-                      color: Colors.grey[500],
+
+                  // --- KONTEN BAWAH ---
+                  // Kelompokkan tombol dan teks di bawah
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      bottom: 16.0,
+                    ), // Beri padding bawah
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: primaryColor,
+                              foregroundColor: Colors.white,
+                              padding: const EdgeInsets.symmetric(vertical: 16),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              textStyle: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            onPressed: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const LoginScreen(),
+                              ),
+                            ),
+                            child: const Text('Masuk'),
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        SizedBox(
+                          width: double.infinity,
+                          child: OutlinedButton(
+                            style: OutlinedButton.styleFrom(
+                              foregroundColor: primaryColor,
+                              padding: const EdgeInsets.symmetric(vertical: 16),
+                              side: const BorderSide(color: primaryColor),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              textStyle: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            onPressed: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const SignupScreen(),
+                              ),
+                            ),
+                            child: const Text('Daftar'),
+                          ),
+                        ),
+                        const SizedBox(height: 32),
+                        Text(
+                          'Dengan melanjutkan, Anda menyetujui\nSyarat & Ketentuan dan Kebijakan Privasi',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.grey.shade500,
+                            height: 1.4,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
                     ),
-                    textAlign: TextAlign.center,
                   ),
                 ],
               ),
-            ],
+            ),
           ),
         ),
       ),

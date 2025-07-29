@@ -134,7 +134,7 @@ class AnalysisResultScreen extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(vertical: 12),
                     foregroundColor: const Color(0xFF395886),
                     side: BorderSide(
-                      color: const Color(0xFF395886).withOpacity(0.5),
+                      color: const Color(0xFF395886).withAlpha((0.5*255).round()),
                     ),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),

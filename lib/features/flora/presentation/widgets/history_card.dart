@@ -16,7 +16,7 @@ class HistoryCard extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 12),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       elevation: 2,
-      shadowColor: Colors.black.withOpacity(0.1),
+      shadowColor: Colors.black.withAlpha((0.1 * 255).round()),
       child: InkWell(
         borderRadius: BorderRadius.circular(12),
         onTap: onTap,

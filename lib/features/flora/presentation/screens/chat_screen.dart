@@ -156,7 +156,7 @@ class _ModernAppBar extends StatelessWidget {
             width: 36,
             height: 36,
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.2),
+              color: Colors.white.withAlpha((0.2 * 255).round()),
               borderRadius: BorderRadius.circular(12),
             ),
             child: const Icon(
@@ -330,7 +330,7 @@ class _ModernInputArea extends StatelessWidget {
                       shape: BoxShape.circle,
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.2),
+                          color: Colors.black.withAlpha((0.2 * 255).round()),
                           blurRadius: 4,
                           offset: const Offset(0, 2),
                         ),
@@ -394,7 +394,7 @@ class _ModernChatBubble extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 11,
                         fontWeight: FontWeight.w600,
-                        color: Colors.white.withOpacity(0.8),
+                        color: Colors.white.withAlpha((0.8 * 255).round()),
                         letterSpacing: 0.3,
                       ),
                     ),
@@ -403,8 +403,10 @@ class _ModernChatBubble extends StatelessWidget {
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
                     color: isUser
-                        ? const Color(0xFFE8F4FD).withOpacity(0.85)
-                        : const Color(0xFFFFFFFF).withOpacity(0.9),
+                        ? const Color(0xFFE8F4FD).withAlpha((0.8 * 255).round())
+                        : const Color(
+                            0xFFFFFFFF,
+                          ).withAlpha((0.9 * 255).round()),
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(isUser ? 20 : 8),
                       topRight: Radius.circular(isUser ? 8 : 20),
@@ -413,13 +415,15 @@ class _ModernChatBubble extends StatelessWidget {
                     ),
                     border: Border.all(
                       color: isUser
-                          ? const Color(0xFF395886).withOpacity(0.15)
-                          : Colors.white.withOpacity(0.4),
+                          ? const Color(
+                              0xFF395886,
+                            ).withAlpha((0.15 * 255).round())
+                          : Colors.white.withAlpha((0.4 * 255).round()),
                       width: 1,
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.05),
+                        color: Colors.black.withAlpha((0.05 * 255).round()),
                         blurRadius: 8,
                         offset: const Offset(0, 2),
                       ),
@@ -473,42 +477,56 @@ class _AnalysisImagesGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
-      child: GridView.builder(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          crossAxisSpacing: 8,
-          mainAxisSpacing: 8,
-          childAspectRatio: 1.2,
-        ),
-        itemCount: imagePaths.length,
-        itemBuilder: (context, index) {
-          return Container(
-            decoration: BoxDecoration(
-              color: Colors.grey.shade200,
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: Colors.grey.shade300, width: 1),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'Hasil Analisis Visual:',
+            style: TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
+              color: Color(0xFF395886),
             ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(11),
-              child: Image.file(
-                File(imagePaths[index]),
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) {
-                  return Container(
-                    color: Colors.grey.shade100,
-                    child: Icon(
-                      Icons.image_outlined,
-                      color: Colors.grey.shade400,
-                      size: 32,
-                    ),
-                  );
-                },
-              ),
+          ),
+          const SizedBox(height: 8),
+          GridView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: 8,
+              mainAxisSpacing: 8,
+              childAspectRatio: 1.2,
             ),
-          );
-        },
+            itemCount: imagePaths.length,
+            itemBuilder: (context, index) {
+              return Container(
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade200,
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: Colors.grey.shade300, width: 1),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(11),
+                  child: Image.file(
+                    File(imagePaths[index]),
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Container(
+                        color: Colors.grey.shade100,
+                        child: Icon(
+                          Icons.image_outlined,
+                          color: Colors.grey.shade400,
+                          size: 32,
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              );
+            },
+          ),
+        ],
       ),
     );
   }
@@ -527,7 +545,7 @@ class _BotAvatar extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF395886).withOpacity(0.3),
+            color: const Color(0xFF395886).withAlpha((0.3 * 255).round()),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -552,7 +570,7 @@ class _UserAvatar extends StatelessWidget {
         color: Colors.white,
         borderRadius: BorderRadius.circular(10),
         border: Border.all(
-          color: const Color(0xFF395886).withOpacity(0.2),
+          color: const Color(0xFF395886).withAlpha((0.2 * 255).round()),
           width: 1.5,
         ),
       ),
@@ -602,7 +620,7 @@ class _TypingIndicatorState extends State<_TypingIndicator>
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.95),
+              color: Colors.white.withAlpha((0.95 * 255).round()),
               borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(8),
                 topRight: Radius.circular(20),
@@ -611,7 +629,7 @@ class _TypingIndicatorState extends State<_TypingIndicator>
               ),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.08),
+                  color: Colors.black.withAlpha((0.08 * 255).round()),
                   blurRadius: 10,
                   offset: const Offset(0, 2),
                 ),

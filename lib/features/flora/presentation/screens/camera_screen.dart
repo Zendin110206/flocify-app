@@ -85,8 +85,9 @@ class _CameraScreenState extends ConsumerState<CameraScreen>
   Future<void> _initializeCamera() async {
     final cameras = await availableCameras();
     if (cameras.isEmpty) {
-      if (mounted)
+      if (mounted) {
         setState(() => _permissionStatus = PermissionStatusState.denied);
+      }
       return;
     }
     final firstCamera = cameras.first;
@@ -148,13 +149,19 @@ class _CameraScreenState extends ConsumerState<CameraScreen>
   // AKSI UTAMA
   // ─────────────────────────────────────────────────────────────────────────
   Future<void> _takePicture() async {
-    if (_cameraController == null || !_cameraController!.value.isInitialized)
+    if (_cameraController == null || !_cameraController!.value.isInitialized) {
       return;
+    }
     await _initializeControllerFuture;
     if (!_cameraController!.value.isTakingPicture) {
       try {
         final XFile imageFile = await _cameraController!.takePicture();
         HapticFeedback.heavyImpact();
+        _draggableController.animateTo(
+          _sheetTall, // Target ketinggian saat ada gambar
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeOut,
+        );
         ref
             .read(cameraScreenControllerProvider.notifier)
             .captureAndAdvance(File(imageFile.path));

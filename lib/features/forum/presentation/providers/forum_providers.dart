@@ -1,42 +1,35 @@
-// ===========================================================================
-// PRESENTATION LAYER - PROVIDERS
-// Path: lib/features/forum/presentation/providers/forum_providers.dart
-// ===========================================================================
+// Path: lib/features/forum/presentation/providers/forum_providers.dart (REVISI FINAL)
+
 import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:proyek_flocify/features/auth/presentation/providers/auth_providers.dart';
 import '../../data/repositories/forum_repository_impl.dart';
+import '../../domain/models/commodity.dart';
 import '../../domain/models/forum_post.dart';
 import '../../domain/repositories/forum_repository.dart';
-import 'package:proyek_flocify/features/auth/presentation/providers/auth_providers.dart'; // <-- JANGAN LUPA IMPORT
-import '../../domain/models/commodity.dart';
 import '../../domain/usecases/vote_on_post_usecase.dart';
 
-/// Provides the implementation of [ForumRepository].
-/// This can be easily swapped with a real implementation (e.g., Firebase)
-/// without affecting the rest of the application.
+// --- Providers Lapisan Data & Opsi UI ---
+
 final forumRepositoryProvider = Provider<ForumRepository>((ref) {
   return FakeForumRepository();
 });
 
-/// State providers for simple filter and sort options.
 final forumFilterProvider = StateProvider.autoDispose<String>((ref) => 'Semua');
 final forumSortByProvider = StateProvider.autoDispose<String>(
   (ref) => 'Terbaru',
 );
 
-/// Provider to fetch the list of commodities for filtering.
 final commoditiesProvider = FutureProvider.autoDispose<List<Commodity>>((ref) {
-  final repository = ref.watch(forumRepositoryProvider);
-  return repository.getCommodities();
+  return ref.watch(forumRepositoryProvider).getCommodities();
 });
 
-/// Provider to fetch suggested tags for post creation.
 final suggestedTagsProvider = FutureProvider.autoDispose<List<String>>((ref) {
-  final repository = ref.watch(forumRepositoryProvider);
-  return repository.getSuggestedTags();
+  return ref.watch(forumRepositoryProvider).getSuggestedTags();
 });
 
-/// State class for the list of forum posts.
+// --- State & Notifier untuk Daftar Postingan Forum ---
+
 class ForumPostsState {
   final List<ForumPost> posts;
   final bool isLoading;
@@ -68,9 +61,8 @@ class ForumPostsState {
   }
 }
 
-/// Notifier to manage the state of the forum posts list, including pagination and voting.
 class ForumPostsNotifier extends StateNotifier<ForumPostsState> {
-  final Ref _ref; // <-- 1. TAMBAHKAN BARIS INI
+  final Ref _ref;
   final ForumRepository _repository;
   final String _filter;
   final String _sortBy;
@@ -129,54 +121,56 @@ class ForumPostsNotifier extends StateNotifier<ForumPostsState> {
     required String postId,
     required bool isLike,
   }) async {
-    final userId = _ref.read(currentUserIdProvider);
-    if (userId == null) {
-      throw Exception('Sesi Anda telah berakhir. Silakan login kembali.');
-    }
+    // Simpan state asli untuk rollback jika terjadi error
     final originalPosts = state.posts;
-    final postIndex = originalPosts.indexWhere((p) => p.id == postId);
-    if (postIndex == -1) return;
 
-    // 1. Panggil UseCase untuk mendapatkan post yang sudah diperbarui
-    final postToUpdate = originalPosts[postIndex];
-    final updatedPost = VoteOnPostUseCase().execute(
-      post: postToUpdate,
-      userId: userId,
-      isLike: isLike,
-    );
-
-    // 2. Lakukan optimistic UI update
-    final newPosts = List<ForumPost>.from(originalPosts);
-    newPosts[postIndex] = updatedPost;
-    state = state.copyWith(posts: newPosts);
-
-    // 3. Tentukan vote final untuk dikirim ke repository
-    bool? finalVote;
-    if (updatedPost.likedBy.contains(userId)) {
-      finalVote = true;
-    } else if (updatedPost.dislikedBy.contains(userId)) {
-      finalVote = false;
-    } else {
-      finalVote = null; // Batal vote
-    }
-
-    // 4. Kirim ke repository
     try {
+      // 1. Dapatkan ID pengguna. Ini akan throw error jika user tidak login.
+      final userId = _ref.read(currentUserIdProvider);
+
+      final postIndex = originalPosts.indexWhere((p) => p.id == postId);
+      if (postIndex == -1) return;
+
+      // 2. Lakukan optimistic UI update
+      final postToUpdate = originalPosts[postIndex];
+      final updatedPost = VoteOnPostUseCase().execute(
+        post: postToUpdate,
+        userId: userId,
+        isLike: isLike,
+      );
+      final newPosts = List<ForumPost>.from(originalPosts);
+      newPosts[postIndex] = updatedPost;
+      state = state.copyWith(posts: newPosts);
+
+      // 3. Tentukan vote final untuk dikirim ke repository
+      bool? finalVote;
+      if (updatedPost.likedBy.contains(userId)) {
+        finalVote = true;
+      } else if (updatedPost.dislikedBy.contains(userId)) {
+        finalVote = false;
+      } else {
+        finalVote = null; // Batal vote
+      }
+
+      // 4. Kirim ke repository
       await _repository.votePost(
         postId: postId,
         userId: userId,
         isLike: finalVote,
       );
     } catch (e) {
-      // Kembalikan ke state semula jika error
-      state = state.copyWith(posts: originalPosts, errorMessage: e.toString());
+      // Jika terjadi error (entah dari currentUserIdProvider atau repository),
+      // kembalikan state ke semula dan tampilkan pesan error.
+      state = state.copyWith(
+        posts: originalPosts,
+        errorMessage: e.toString().replaceFirst("Exception: ", ""),
+      );
     }
   }
 }
 
-/// The main provider for the list of forum posts.
-/// It uses `.family` implicitly by watching other providers, so it will
-/// automatically re-create itself when the filter or sort order changes.
+// --- Providers Utama ---
+
 final forumPostsProvider =
     StateNotifierProvider.autoDispose<ForumPostsNotifier, ForumPostsState>((
       ref,
@@ -187,8 +181,6 @@ final forumPostsProvider =
       return ForumPostsNotifier(ref, repository, filter, sortBy);
     });
 
-/// Provider to fetch the details of a single post.
-/// More efficient than searching the list, as it fetches fresh data.
 final postDetailProvider = FutureProvider.autoDispose.family<ForumPost, String>(
   (ref, postId) {
     final repository = ref.watch(forumRepositoryProvider);
