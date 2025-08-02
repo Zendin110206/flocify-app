@@ -50,123 +50,104 @@ class _RoleSelectionScreenState extends State<RoleSelectionScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: backgroundColor,
-      // REVISED: AppBar removed to use custom header
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // REVISED: Header section made consistent
-                      _buildHeader(),
-                      const SizedBox(height: 40),
-                      _RoleCard(
-                        title: 'Peternak/Budidaya',
-                        description: 'Saya membudidayakan ikan atau udang',
-                        icon: Icons.waves,
-                        roleValue: 'farmer',
-                        isSelected: _selectedRole == 'farmer',
-                        onTap: () => _selectRole('farmer'),
-                      ),
-                      const SizedBox(height: 16),
-                      _RoleCard(
-                        title: 'Pembeli/Tengkulak',
-                        description:
-                            'Saya membeli hasil panen untuk dijual kembali',
-                        icon: Icons.shopping_cart_outlined,
-                        roleValue: 'buyer',
-                        isSelected: _selectedRole == 'buyer',
-                        onTap: () => _selectRole('buyer'),
-                      ),
-                      const SizedBox(height: 16),
-                      _RoleCard(
-                        title: 'Supplier/Distributor',
-                        description:
-                            'Saya menyediakan pakan, bibit, atau peralatan',
-                        icon: Icons.inventory_2_outlined,
-                        roleValue: 'supplier',
-                        isSelected: _selectedRole == 'supplier',
-                        onTap: () => _selectRole('supplier'),
-                      ),
-                      const SizedBox(height: 24),
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: _selectedRole != null
-                        ? primaryColor
-                        : Colors.grey.shade300,
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
+    // PopScope adalah cara modern untuk mengontrol navigasi 'kembali'.
+    return PopScope(
+      canPop: false,
+      child: Scaffold(
+        backgroundColor: backgroundColor,
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // REVISED: Header section made consistent
+                        _buildHeader(),
+                        const SizedBox(height: 40),
+                        _RoleCard(
+                          title: 'Peternak/Budidaya',
+                          description: 'Saya membudidayakan ikan atau udang',
+                          icon: Icons.waves,
+                          roleValue: 'farmer',
+                          isSelected: _selectedRole == 'farmer',
+                          onTap: () => _selectRole('farmer'),
+                        ),
+                        const SizedBox(height: 16),
+                        _RoleCard(
+                          title: 'Pembeli/Tengkulak',
+                          description:
+                              'Saya membeli hasil panen untuk dijual kembali',
+                          icon: Icons.shopping_cart_outlined,
+                          roleValue: 'buyer',
+                          isSelected: _selectedRole == 'buyer',
+                          onTap: () => _selectRole('buyer'),
+                        ),
+                        const SizedBox(height: 16),
+                        _RoleCard(
+                          title: 'Supplier/Distributor',
+                          description:
+                              'Saya menyediakan pakan, bibit, atau peralatan',
+                          icon: Icons.inventory_2_outlined,
+                          roleValue: 'supplier',
+                          isSelected: _selectedRole == 'supplier',
+                          onTap: () => _selectRole('supplier'),
+                        ),
+                        const SizedBox(height: 24),
+                      ],
                     ),
-                    elevation: _selectedRole != null ? 5 : 0,
-                    shadowColor: primaryColor.withOpacity(0.4),
-                  ),
-                  onPressed: _selectedRole != null
-                      ? _navigateToNextScreen
-                      : null,
-                  child: const Text(
-                    'Lanjutkan',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                   ),
                 ),
-              ),
-              const SizedBox(height: 32),
-            ],
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: _selectedRole != null
+                          ? primaryColor
+                          : Colors.grey.shade300,
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      elevation: _selectedRole != null ? 5 : 0,
+                      shadowColor: primaryColor.withOpacity(0.4),
+                    ),
+                    onPressed: _selectedRole != null
+                        ? _navigateToNextScreen
+                        : null,
+                    child: const Text(
+                      'Lanjutkan',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 32),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  // REVISED: Header widget to match other screens
+  // REVISED: Header widget yang sudah tidak memiliki tombol kembali
   Widget _buildHeader() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SizedBox(height: 24),
-        Row(
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(14),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.06),
-                    blurRadius: 12,
-                    offset: const Offset(0, 3),
-                  ),
-                ],
-              ),
-              child: IconButton(
-                icon: const Icon(
-                  Icons.arrow_back_ios_new_rounded,
-                  color: Color(0xFF64748B),
-                  size: 18,
-                ),
-                onPressed: () {
-                  HapticFeedback.lightImpact();
-                  Navigator.pop(context);
-                },
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 30),
+        // Memberikan jarak dari atas layar untuk menggantikan posisi tombol.
+        // Anda bisa sesuaikan nilainya jika terasa kurang pas.
+        const SizedBox(height: 60),
+
+        // Sisa dari header (Judul dan Subjudul) tetap sama.
         const Text(
           'Pilih Peran Anda',
           style: TextStyle(

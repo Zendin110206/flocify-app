@@ -2,6 +2,7 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import '../../domain/repositories/auth_repository.dart';
+import '../../domain/exceptions/auth_exceptions.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   final FirebaseAuth _firebaseAuth;
@@ -22,8 +23,8 @@ class AuthRepositoryImpl implements AuthRepository {
       return result.user;
     } on FirebaseAuthException catch (e) {
       // Kita bisa menangani error spesifik di sini nanti
-      print('FirebaseAuthException: ${e.message}');
-      return null;
+      print('FirebaseAuthException on SignIn, code: ${e.code}');
+      throw LogInWithEmailAndPasswordFailure.fromCode(e.code);
     }
   }
 
@@ -37,14 +38,19 @@ class AuthRepositoryImpl implements AuthRepository {
         email: email,
         password: password,
       );
-      // TODO: Kirim email verifikasi setelah berhasil mendaftar
-      // result.user?.sendEmailVerification();
+      try {
+        await result.user?.sendEmailVerification();
+      } catch (e) {
+        // Log error jika pengiriman email gagal, tapi jangan hentikan alur.
+        // Pendaftaran tetap berhasil.
+        print('Gagal mengirim email verifikasi: $e');
+      }
+      // =======================================================================
+
       return result.user;
     } on FirebaseAuthException catch (e) {
-      // Tangani error spesifik, misal: email sudah digunakan
-      print('FirebaseAuthException on SignUp: ${e.message}');
-      // Melempar kembali error agar bisa ditangkap oleh UI
-      throw Exception(e.message ?? 'Terjadi kesalahan saat mendaftar');
+      print('FirebaseAuthException on SignUp, code: ${e.code}'); // Log kodenya
+      throw SignUpWithEmailAndPasswordFailure.fromCode(e.code);
     }
   }
 

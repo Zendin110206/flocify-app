@@ -15,16 +15,20 @@ final userRepositoryProvider = Provider<UserRepository>((ref) {
 // 2. Provider untuk MENDAPATKAN data profil pengguna yang SEDANG LOGIN.
 //    Ini adalah provider yang paling sering digunakan oleh UI.
 //    .autoDispose akan otomatis membersihkan state saat tidak ada yang listen.
-final userProfileProvider = FutureProvider.autoDispose<UserProfile?>((ref) {
-  // Provider ini bergantung pada UID pengguna yang sedang login.
-  // Jika user logout, provider ini akan otomatis re-evaluate dan gagal (ini bagus!).
-  try {
-    final uid = ref.watch(currentUserIdProvider);
-    // Panggil repository untuk mendapatkan data.
-    return ref.watch(userRepositoryProvider).getUserProfile(uid);
-  } catch (e) {
-    // Ini terjadi jika tidak ada user yang login (currentUserIdProvider throw error).
-    // Kembalikan null karena memang tidak ada profil untuk ditampilkan.
-    return null;
-  }
+// ========================== PROVIDER BARU & UTAMA ==========================
+/// Provider ini menyediakan stream data UserProfile yang sedang login.
+/// Gunakan `ref.watch(userProfileStreamProvider)` di UI.
+/// Ini akan secara otomatis rebuild widget ketika data profil di Firestore berubah.
+final userProfileStreamProvider = StreamProvider.autoDispose<UserProfile?>((
+  ref,
+) {
+  // 1. Dapatkan UID pengguna yang sedang login dari authStateProvider.
+  //    Menggunakan `watch` memastikan jika pengguna logout/login, provider ini akan dieksekusi ulang.
+  final userId = ref.watch(currentUserIdProvider);
+
+  // 2. Dapatkan instance dari UserRepository.
+  final repository = ref.watch(userRepositoryProvider);
+
+  // 3. Panggil method stream yang baru kita buat.
+  return repository.getUserProfileStream(userId);
 });

@@ -14,4 +14,8 @@ abstract class UserRepository {
   /// Mengecek apakah profil untuk [uid] tertentu sudah ada.
   /// Berguna untuk alur onboarding.
   Future<bool> doesUserProfileExist(String uid);
+
+  /// Mendapatkan stream data profil pengguna secara real-time berdasarkan [uid].
+  /// Akan otomatis mengirim data baru setiap kali ada perubahan di Firestore.
+  Stream<UserProfile?> getUserProfileStream(String uid);
 }

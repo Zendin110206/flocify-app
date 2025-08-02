@@ -66,4 +66,19 @@ class UserRepositoryImpl implements UserRepository {
       return false;
     }
   }
+
+  @override
+  Stream<UserProfile?> getUserProfileStream(String uid) {
+    // .doc(uid) menunjuk ke dokumen pengguna yang spesifik.
+    // .snapshots() mengembalikan Stream yang akan 'memancarkan' data baru
+    // setiap kali konten dokumen tersebut berubah.
+    return _usersRef.doc(uid).snapshots().map((snapshot) {
+      // Jika dokumen ada (exist), kembalikan datanya (yang sudah di-convert
+      // ke UserProfile oleh withConverter). Jika tidak, kembalikan null.
+      if (snapshot.exists) {
+        return snapshot.data();
+      }
+      return null;
+    });
+  }
 }

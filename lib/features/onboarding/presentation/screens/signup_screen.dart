@@ -8,7 +8,7 @@ import 'package:proyek_flocify/features/auth/presentation/providers/auth_provide
 import 'login_screen.dart';
 import 'package:proyek_flocify/features/users/domain/models/user_profile.dart';
 import 'package:proyek_flocify/features/users/presentation/providers/user_providers.dart';
-import 'package:proyek_flocify/features/onboarding/presentation/screens/role_selection_screen.dart';
+import 'package:proyek_flocify/features/onboarding/presentation/screens/verification_screen.dart';
 
 class SignupScreen extends ConsumerStatefulWidget {
   const SignupScreen({super.key});
@@ -37,10 +37,10 @@ class _SignupScreenState extends ConsumerState<SignupScreen>
   bool _agreeToTerms = false;
 
   late AnimationController _animationController;
-  late Animation<double> _fadeAnimation;
-  late Animation<Offset> _slideAnimation;
+  late Animation<double> _headerAnimation;
+  late Animation<double> _formAnimation;
+  late Animation<double> _buttonsAnimation;
 
-  // REVISED: Using color scheme from Login Screen for consistency
   static const Color primaryColor = Color(0xFF2563EB);
   static const Color secondaryColor = Color(0xFF3B82F6);
   static const Color backgroundColor = Color(0xFFFAFBFC);
@@ -54,21 +54,26 @@ class _SignupScreenState extends ConsumerState<SignupScreen>
   void initState() {
     super.initState();
     _animationController = AnimationController(
-      duration: const Duration(milliseconds: 800),
+      // REVISED: Duration slightly increased for a more visible effect
+      duration: const Duration(milliseconds: 1200),
       vsync: this,
     );
 
-    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _animationController, curve: Curves.easeOutCubic),
+    // REVISED: Intervals adjusted for a better staggered feel
+    _headerAnimation = CurvedAnimation(
+      parent: _animationController,
+      curve: const Interval(0.0, 0.6, curve: Curves.easeInOutCubic),
     );
 
-    _slideAnimation =
-        Tween<Offset>(begin: const Offset(0, 0.3), end: Offset.zero).animate(
-          CurvedAnimation(
-            parent: _animationController,
-            curve: Curves.easeOutCubic,
-          ),
-        );
+    _formAnimation = CurvedAnimation(
+      parent: _animationController,
+      curve: const Interval(0.2, 0.8, curve: Curves.easeInOutCubic),
+    );
+
+    _buttonsAnimation = CurvedAnimation(
+      parent: _animationController,
+      curve: const Interval(0.4, 1.0, curve: Curves.easeInOutCubic),
+    );
 
     _animationController.forward();
   }
@@ -159,7 +164,7 @@ class _SignupScreenState extends ConsumerState<SignupScreen>
           context,
           PageRouteBuilder(
             pageBuilder: (context, animation, secondaryAnimation) =>
-                const RoleSelectionScreen(),
+                VerificationScreen(email: email),
             transitionsBuilder:
                 (context, animation, secondaryAnimation, child) {
                   return SlideTransition(
@@ -209,36 +214,43 @@ class _SignupScreenState extends ConsumerState<SignupScreen>
     return Scaffold(
       backgroundColor: backgroundColor,
       body: SafeArea(
-        child: FadeTransition(
-          opacity: _fadeAnimation,
-          child: SlideTransition(
-            position: _slideAnimation,
-            child: SingleChildScrollView(
-              child: Center(
-                child: Container(
-                  width: maxWidth,
-                  padding: EdgeInsets.symmetric(
-                    horizontal: isTablet ? 32.0 : 24.0,
-                    vertical: 24.0,
-                  ),
-                  child: Form(
-                    key: _formKey,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        _buildHeader(),
-                        const SizedBox(height: 40),
-                        _buildFormFields(),
-                        const SizedBox(height: 24),
-                        _buildSignupButton(isLoading),
-                        const SizedBox(height: 28),
-                        _buildDividerWithText(textTertiary),
-                        const SizedBox(height: 20),
-                        _buildGoogleSignupButton(surfaceColor, textSecondary),
-                        _buildLoginNavigation(context),
-                      ],
+        child: SingleChildScrollView(
+          child: Center(
+            child: Container(
+              width: maxWidth,
+              padding: EdgeInsets.symmetric(
+                horizontal: isTablet ? 32.0 : 24.0,
+                vertical: 24.0,
+              ),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _AnimatedStaggeredItem(
+                      animation: _headerAnimation,
+                      child: _buildHeader(),
                     ),
-                  ),
+                    const SizedBox(height: 40),
+                    _AnimatedStaggeredItem(
+                      animation: _formAnimation,
+                      child: _buildFormFields(),
+                    ),
+                    const SizedBox(height: 24),
+                    _AnimatedStaggeredItem(
+                      animation: _buttonsAnimation,
+                      child: Column(
+                        children: [
+                          _buildSignupButton(isLoading),
+                          const SizedBox(height: 28),
+                          _buildDividerWithText(textTertiary),
+                          const SizedBox(height: 20),
+                          _buildGoogleSignupButton(surfaceColor, textSecondary),
+                          _buildLoginNavigation(context),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -248,7 +260,6 @@ class _SignupScreenState extends ConsumerState<SignupScreen>
     );
   }
 
-  // REVISED: Header to match login_screen style
   Widget _buildHeader() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -256,7 +267,7 @@ class _SignupScreenState extends ConsumerState<SignupScreen>
         Row(
           children: [
             Hero(
-              tag: 'back_button', // Consistent hero tag
+              tag: 'back_button',
               child: Container(
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -277,7 +288,12 @@ class _SignupScreenState extends ConsumerState<SignupScreen>
                   ),
                   onPressed: () async {
                     HapticFeedback.lightImpact();
-                    Navigator.pop(context);
+                    FocusScope.of(context).unfocus();
+                    await Future.delayed(const Duration(milliseconds: 600));
+
+                    if (mounted) {
+                      Navigator.pop(context);
+                    }
                   },
                 ),
               ),
@@ -309,7 +325,6 @@ class _SignupScreenState extends ConsumerState<SignupScreen>
     );
   }
 
-  // Grouped form fields for clarity
   Widget _buildFormFields() {
     return Column(
       children: [
@@ -407,7 +422,6 @@ class _SignupScreenState extends ConsumerState<SignupScreen>
     );
   }
 
-  // Using the same text field style as login_screen
   Widget _buildTextField({
     required TextEditingController controller,
     required FocusNode focusNode,
@@ -548,7 +562,6 @@ class _SignupScreenState extends ConsumerState<SignupScreen>
     );
   }
 
-  // Using same button style as login_screen
   Widget _buildSignupButton(bool isLoading) {
     return Container(
       width: double.infinity,
@@ -601,7 +614,6 @@ class _SignupScreenState extends ConsumerState<SignupScreen>
     );
   }
 
-  // REVISED: Divider to match login_screen
   Widget _buildDividerWithText(Color textTertiary) {
     return Row(
       children: [
@@ -630,7 +642,7 @@ class _SignupScreenState extends ConsumerState<SignupScreen>
               border: Border.all(color: textTertiary.withOpacity(0.2)),
             ),
             child: Text(
-              'atau daftar dengan', // Changed text
+              'atau daftar dengan',
               style: TextStyle(
                 color: textTertiary,
                 fontSize: 12,
@@ -659,7 +671,6 @@ class _SignupScreenState extends ConsumerState<SignupScreen>
     );
   }
 
-  // REVISED: Google button to match login_screen
   Widget _buildGoogleSignupButton(Color surfaceColor, Color textSecondary) {
     return Container(
       width: double.infinity,
@@ -701,7 +712,7 @@ class _SignupScreenState extends ConsumerState<SignupScreen>
               ),
               const SizedBox(width: 14),
               Text(
-                'Daftar dengan Google', // Changed text
+                'Daftar dengan Google',
                 style: TextStyle(
                   color: textSecondary,
                   fontSize: 16,
@@ -716,7 +727,6 @@ class _SignupScreenState extends ConsumerState<SignupScreen>
     );
   }
 
-  // REVISED: Login navigation to match login_screen style
   Widget _buildLoginNavigation(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 16),
@@ -813,6 +823,29 @@ class _SignupScreenState extends ConsumerState<SignupScreen>
       margin: const EdgeInsets.all(16),
       elevation: 8,
       duration: const Duration(seconds: 4),
+    );
+  }
+}
+
+// Helper widget to apply staggered animation to its child
+class _AnimatedStaggeredItem extends StatelessWidget {
+  const _AnimatedStaggeredItem({required this.animation, required this.child});
+
+  final Animation<double> animation;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return FadeTransition(
+      opacity: animation,
+      child: SlideTransition(
+        position: Tween<Offset>(
+          // REVISED: Increased slide offset for a more noticeable effect
+          begin: const Offset(0, 0.4),
+          end: Offset.zero,
+        ).animate(animation),
+        child: child,
+      ),
     );
   }
 }

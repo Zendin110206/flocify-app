@@ -1,60 +1,30 @@
 // lib/features/onboarding/presentation/screens/verification_screen.dart
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:proyek_flocify/features/onboarding/presentation/screens/role_selection_screen.dart';
 
-class VerificationScreen extends StatefulWidget {
+class VerificationScreen extends ConsumerStatefulWidget {
   final String email;
 
   const VerificationScreen({super.key, required this.email});
 
   @override
-  State<VerificationScreen> createState() => _VerificationScreenState();
+  ConsumerState<VerificationScreen> createState() => _VerificationScreenState();
 }
 
-class _VerificationScreenState extends State<VerificationScreen> {
-  late final List<TextEditingController> _otpControllers;
-  late final List<FocusNode> _focusNodes;
-
-  @override
-  void initState() {
-    super.initState();
-    _otpControllers = List.generate(6, (_) => TextEditingController());
-    _focusNodes = List.generate(6, (_) => FocusNode());
-  }
-
-  @override
-  void dispose() {
-    for (var controller in _otpControllers) {
-      controller.dispose();
-    }
-    for (var node in _focusNodes) {
-      node.dispose();
-    }
-    super.dispose();
-  }
-
-  void _onOtpChanged(String value, int index) {
-    if (value.isNotEmpty && index < 5) {
-      _focusNodes[index + 1].requestFocus();
-    } else if (value.isEmpty && index > 0) {
-      _focusNodes[index - 1].requestFocus();
-    }
-  }
+class _VerificationScreenState extends ConsumerState<VerificationScreen> {
+  bool _isChecking = false;
+  bool _isResending = false;
 
   @override
   Widget build(BuildContext context) {
     const Color primaryColor = Color(0xFF1E88E5);
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.grey.shade800),
-          onPressed: () => Navigator.pop(context),
-        ),
-      ),
+      // DIHILANGKAN: AppBar dihapus untuk mencegah navigasi yang tidak diinginkan.
+      // Pengguna harus mengikuti alur verifikasi.
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
@@ -62,44 +32,49 @@ class _VerificationScreenState extends State<VerificationScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const SizedBox(height: 40),
-                const Icon(Icons.email_outlined, size: 80, color: primaryColor),
+                const SizedBox(height: 80), // Tambah spasi karena AppBar hilang
+                const Icon(
+                  Icons.mark_email_read_outlined,
+                  size: 80,
+                  color: primaryColor,
+                ),
                 const SizedBox(height: 32),
-                Text(
-                  'Verifikasi Email',
+                const Text(
+                  'Verifikasi Email Anda',
                   style: TextStyle(
                     fontSize: 28,
                     fontWeight: FontWeight.bold,
-                    color: Colors.grey.shade800,
+                    color: Colors.black87,
                   ),
                 ),
                 const SizedBox(height: 16),
-                Text(
-                  'Kami telah mengirim kode verifikasi ke',
-                  style: TextStyle(fontSize: 16, color: Colors.grey.shade600),
+                const Text(
+                  'Kami telah mengirim link verifikasi ke alamat email:',
+                  style: TextStyle(fontSize: 16, color: Colors.grey),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 8),
                 Text(
                   widget.email,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
-                    color: Colors.grey.shade800,
+                    color: Colors.black87,
                   ),
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 40),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: List.generate(
-                    6,
-                    (index) => _buildOtpTextField(index),
-                  ),
+                const SizedBox(height: 16),
+                const Text(
+                  'Setelah verifikasi, kembali ke aplikasi dan tekan tombol di bawah.',
+                  style: TextStyle(fontSize: 14, color: Colors.grey),
+                  textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 32),
+                const SizedBox(height: 40),
+
+                // Tombol "Saya sudah verifikasi" dengan logika navigasi langsung
                 SizedBox(
                   width: double.infinity,
+                  height: 52,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: primaryColor,
@@ -108,78 +83,127 @@ class _VerificationScreenState extends State<VerificationScreen> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
+                      disabledBackgroundColor: primaryColor.withOpacity(0.7),
                     ),
-                    onPressed: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const RoleSelectionScreen(),
-                      ),
-                    ),
-                    child: const Text(
-                      'Verifikasi',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
+                    onPressed: _isChecking
+                        ? null
+                        : () async {
+                            setState(() {
+                              _isChecking = true;
+                            });
+
+                            User? user = FirebaseAuth.instance.currentUser;
+                            await user?.reload();
+                            user = FirebaseAuth
+                                .instance
+                                .currentUser; // Ambil ulang data terbaru
+
+                            setState(() {
+                              _isChecking = false;
+                            });
+
+                            // LOGIKA NAVIGASI EKSPLISIT
+                            if (user?.emailVerified ?? false) {
+                              if (mounted) {
+                                // Navigasi langsung ke RoleSelectionScreen dan hapus layar ini dari tumpukan
+                                Navigator.of(context).pushReplacement(
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const RoleSelectionScreen(),
+                                  ),
+                                );
+                              }
+                            } else {
+                              if (mounted) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text(
+                                      'Email belum diverifikasi. Silakan periksa email Anda dan coba lagi.',
+                                    ),
+                                    backgroundColor: Colors.orange,
+                                  ),
+                                );
+                              }
+                            }
+                          },
+                    child: _isChecking
+                        ? const SizedBox(
+                            height: 24,
+                            width: 24,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2.5,
+                              color: Colors.white,
+                            ),
+                          )
+                        : const Text(
+                            'Saya Sudah Verifikasi',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
                   ),
                 ),
                 const SizedBox(height: 24),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Tidak menerima kode? ',
-                      style: TextStyle(color: Colors.grey.shade600),
-                    ),
-                    TextButton(
-                      onPressed: () {},
-                      child: const Text(
-                        'Kirim Ulang',
-                        style: TextStyle(
-                          color: primaryColor,
-                          fontWeight: FontWeight.w600,
+
+                // Tombol "Kirim Ulang"
+                TextButton(
+                  onPressed: _isResending
+                      ? null
+                      : () async {
+                          setState(() {
+                            _isResending = true;
+                          });
+                          try {
+                            await FirebaseAuth.instance.currentUser
+                                ?.sendEmailVerification();
+                            if (mounted) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                    'Email verifikasi baru telah dikirim.',
+                                  ),
+                                  backgroundColor: Colors.green,
+                                ),
+                              );
+                            }
+                          } catch (e) {
+                            if (mounted) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                    'Gagal mengirim ulang. Coba sesaat lagi.',
+                                  ),
+                                  backgroundColor: Colors.redAccent,
+                                ),
+                              );
+                            }
+                          } finally {
+                            if (mounted) {
+                              setState(() {
+                                _isResending = false;
+                              });
+                            }
+                          }
+                        },
+                  child: _isResending
+                      ? const SizedBox(
+                          height: 16,
+                          width: 16,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        )
+                      : const Text(
+                          'Kirim Ulang Email',
+                          style: TextStyle(
+                            color: primaryColor,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
-                      ),
-                    ),
-                  ],
                 ),
               ],
             ),
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _buildOtpTextField(int index) {
-    return SizedBox(
-      width: 45,
-      height: 55,
-      child: TextFormField(
-        controller: _otpControllers[index],
-        focusNode: _focusNodes[index],
-        textAlign: TextAlign.center,
-        keyboardType: TextInputType.number,
-        maxLength: 1,
-        style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-        decoration: InputDecoration(
-          counterText: '',
-          contentPadding: EdgeInsets.zero,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(color: Colors.grey.shade300),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(color: Colors.grey.shade300),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: const BorderSide(color: Color(0xFF1E88E5), width: 2),
-          ),
-        ),
-        onChanged: (value) => _onOtpChanged(value, index),
       ),
     );
   }

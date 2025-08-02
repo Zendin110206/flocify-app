@@ -19,7 +19,7 @@ class AssetHeader extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final userProfileAsync = ref.watch(userProfileProvider);
+    final userProfileAsync = ref.watch(userProfileStreamProvider);
     final offlineDevices = devices
         .where((d) => d.status == DeviceStatus.offline)
         .length;

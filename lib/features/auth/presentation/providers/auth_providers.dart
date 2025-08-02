@@ -77,18 +77,19 @@ class LoginController extends StateNotifier<AsyncValue<void>> {
   Future<bool> signIn(String email, String password) async {
     state = const AsyncLoading();
     try {
-      // Baca use case di dalam method, bukan di constructor.
       final signInUseCase = _ref.read(signInUseCaseProvider);
-      final user = await signInUseCase.call(email: email, password: password);
+      await signInUseCase.call(
+        email: email,
+        password: password,
+      ); // Panggil use case
 
-      if (user == null) {
-        throw Exception('Email atau kata sandi salah.');
-      }
-
+      // Jika tidak ada error, maka login berhasil.
       state = const AsyncData(null);
       return true;
-    } catch (e) {
-      state = AsyncError(e, StackTrace.current);
+    } catch (e, stack) {
+      // Tambahkan 'stack'
+      // Tangkap error dari repository, dan simpan di state.
+      state = AsyncError(e, stack);
       return false;
     }
   }

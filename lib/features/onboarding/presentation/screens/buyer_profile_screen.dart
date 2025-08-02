@@ -24,7 +24,6 @@ class _BuyerProfileScreenState extends ConsumerState<BuyerProfileScreen> {
   String? _selectedBuyerType;
   final List<String> _selectedSpecies = [];
 
-  // REVISED: Using consistent color scheme
   static const Color primaryColor = Color(0xFF2563EB);
   static const Color backgroundColor = Color(0xFFFAFBFC);
   static const Color textPrimary = Color(0xFF0F172A);
@@ -80,7 +79,7 @@ class _BuyerProfileScreenState extends ConsumerState<BuyerProfileScreen> {
     }
 
     HapticFeedback.mediumImpact();
-    final userProfileAsync = ref.read(userProfileProvider);
+    final userProfileAsync = ref.read(userProfileStreamProvider);
     final currentProfile = userProfileAsync.asData?.value;
 
     if (currentProfile == null) {
@@ -117,6 +116,32 @@ class _BuyerProfileScreenState extends ConsumerState<BuyerProfileScreen> {
     }
   }
 
+  // Fungsi ini dipanggil untuk menampilkan dialog konfirmasi.
+  void _showExitConfirmationDialog(BuildContext context) {
+    showDialog<void>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Batalkan Pengisian Profil?'),
+        content: const Text(
+          'Anda akan kembali ke halaman pemilihan peran. Data yang sudah Anda isi di halaman ini tidak akan tersimpan.',
+        ),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(), // Hanya tutup dialog
+            child: const Text('Lanjutkan Mengisi'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(); // Tutup dialog
+              Navigator.of(context).pop(); // Kembali ke layar sebelumnya
+            },
+            child: const Text('Ya, Kembali'),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     ref.listen<AsyncValue<void>>(profileSetupControllerProvider, (prev, next) {
@@ -127,13 +152,13 @@ class _BuyerProfileScreenState extends ConsumerState<BuyerProfileScreen> {
       }
     });
 
-    final userProfileAsync = ref.watch(userProfileProvider);
+    final userProfileAsync = ref.watch(userProfileStreamProvider);
     final profileSetupState = ref.watch(profileSetupControllerProvider);
     final isSaving = profileSetupState is AsyncLoading;
 
+    // Tidak ada lagi PopScope di sini
     return Scaffold(
       backgroundColor: backgroundColor,
-      // REVISED: AppBar removed
       body: userProfileAsync.when(
         data: (userProfile) {
           if (userProfile == null) {
@@ -148,7 +173,6 @@ class _BuyerProfileScreenState extends ConsumerState<BuyerProfileScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // REVISED: Header made consistent
                     _buildHeader(userProfile.fullName),
                     const SizedBox(height: 32),
 
@@ -215,7 +239,9 @@ class _BuyerProfileScreenState extends ConsumerState<BuyerProfileScreen> {
                           selected: isSelected,
                           onSelected: (selected) =>
                               _onSpeciesSelected(selected, species),
-                          selectedColor: primaryColor.withOpacity(0.2),
+                          selectedColor: primaryColor.withAlpha(
+                            (255 * 0.2).round(),
+                          ),
                           checkmarkColor: primaryColor,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8),
@@ -241,7 +267,9 @@ class _BuyerProfileScreenState extends ConsumerState<BuyerProfileScreen> {
                             borderRadius: BorderRadius.circular(16),
                           ),
                           elevation: 5,
-                          shadowColor: primaryColor.withOpacity(0.4),
+                          shadowColor: primaryColor.withAlpha(
+                            (255 * 0.4).round(),
+                          ),
                         ),
                         onPressed: isSaving ? null : _submitProfile,
                         child: isSaving
@@ -276,7 +304,6 @@ class _BuyerProfileScreenState extends ConsumerState<BuyerProfileScreen> {
     );
   }
 
-  // REVISED: Header widget to match other screens
   Widget _buildHeader(String userName) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -289,7 +316,7 @@ class _BuyerProfileScreenState extends ConsumerState<BuyerProfileScreen> {
                 borderRadius: BorderRadius.circular(14),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.06),
+                    color: Colors.black.withAlpha((255 * 0.06).round()),
                     blurRadius: 12,
                     offset: const Offset(0, 3),
                   ),
@@ -301,14 +328,9 @@ class _BuyerProfileScreenState extends ConsumerState<BuyerProfileScreen> {
                   color: Color(0xFF64748B),
                   size: 18,
                 ),
-                onPressed: () async {
-                  HapticFeedback.lightImpact();
-                  FocusScope.of(context).unfocus();
-                  await Future.delayed(const Duration(milliseconds: 600));
-
-                  if (mounted) {
-                    Navigator.pop(context);
-                  }
+                // INI ADALAH PERUBAHAN UTAMA
+                onPressed: () {
+                  _showExitConfirmationDialog(context);
                 },
               ),
             ),

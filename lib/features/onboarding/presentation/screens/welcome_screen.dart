@@ -18,7 +18,6 @@ class _WelcomeScreenState extends State<WelcomeScreen>
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    // Force hide keyboard when screen loads
     SystemChannels.textInput.invokeMethod('TextInput.hide');
   }
 
@@ -30,7 +29,6 @@ class _WelcomeScreenState extends State<WelcomeScreen>
 
   @override
   void didChangeMetrics() {
-    // Handle keyboard visibility changes
     super.didChangeMetrics();
     if (mounted) {
       setState(() {});
@@ -43,22 +41,19 @@ class _WelcomeScreenState extends State<WelcomeScreen>
     final viewInsets = MediaQuery.of(context).viewInsets;
     final isKeyboardVisible = viewInsets.bottom > 0;
 
-    // Modern color scheme
-    const Color primaryColor = Color(0xFF1E88E5); // Light blue matching splash
+    const Color primaryColor = Color(0xFF1E88E5);
     const Color backgroundColor = Color(0xFFF8FAFC);
 
     return Scaffold(
       backgroundColor: backgroundColor,
       body: GestureDetector(
-        // Dismiss keyboard when tapping outside
         onTap: () => FocusScope.of(context).unfocus(),
         child: SafeArea(
-          child: Container(
+          child: SizedBox(
             width: size.width,
             height: size.height - MediaQuery.of(context).padding.top,
             child: Stack(
               children: [
-                // Main content - fixed position, no scroll
                 Positioned.fill(
                   child: Padding(
                     padding: EdgeInsets.symmetric(
@@ -68,13 +63,10 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        // Hero section - adapts when keyboard appears
                         Flexible(
                           flex: isKeyboardVisible ? 2 : 3,
                           child: _buildHeroSection(isKeyboardVisible),
                         ),
-
-                        // Action section - always visible
                         _buildActionSection(context, primaryColor),
                       ],
                     ),
@@ -92,7 +84,6 @@ class _WelcomeScreenState extends State<WelcomeScreen>
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        // App icon with improved design matching your screenshot
         AnimatedContainer(
           duration: const Duration(milliseconds: 300),
           width: isKeyboardVisible ? 80 : 120,
@@ -101,10 +92,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
             gradient: const LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: [
-                Color(0xFF1E88E5), // Light blue
-                Color(0xFF1976D2), // Slightly darker blue
-              ],
+              colors: [Color(0xFF1E88E5), Color(0xFF1976D2)],
             ),
             borderRadius: BorderRadius.circular(28),
             boxShadow: [
@@ -127,10 +115,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
             color: Colors.white,
           ),
         ),
-
         SizedBox(height: isKeyboardVisible ? 24 : 40),
-
-        // App title
         AnimatedDefaultTextStyle(
           duration: const Duration(milliseconds: 300),
           style: TextStyle(
@@ -141,10 +126,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
           ),
           child: const Text('Flocify'),
         ),
-
         SizedBox(height: isKeyboardVisible ? 8 : 16),
-
-        // Subtitle
         AnimatedDefaultTextStyle(
           duration: const Duration(milliseconds: 300),
           style: TextStyle(
@@ -155,11 +137,8 @@ class _WelcomeScreenState extends State<WelcomeScreen>
           ),
           child: const Text('Solusi Cerdas Akuakultur Modern'),
         ),
-
         if (!isKeyboardVisible) ...[
           const SizedBox(height: 16),
-
-          // Description - hide when keyboard visible
           AnimatedOpacity(
             duration: const Duration(milliseconds: 300),
             opacity: isKeyboardVisible ? 0 : 1,
@@ -186,7 +165,6 @@ class _WelcomeScreenState extends State<WelcomeScreen>
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        // Primary button (Login) - improved design
         Container(
           width: double.infinity,
           height: 56,
@@ -210,19 +188,33 @@ class _WelcomeScreenState extends State<WelcomeScreen>
             color: Colors.transparent,
             child: InkWell(
               borderRadius: BorderRadius.circular(16),
-              onTap: () async {
-                // Ensure keyboard is hidden before navigation
-                FocusScope.of(context).unfocus();
-                await Future.delayed(const Duration(milliseconds: 100));
-
-                if (mounted) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const LoginScreen(),
-                    ),
-                  );
-                }
+              onTap: () {
+                HapticFeedback.lightImpact();
+                Navigator.push(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation, secondaryAnimation) =>
+                        const LoginScreen(),
+                    // REVISED: New transition style
+                    transitionDuration: const Duration(milliseconds: 400),
+                    transitionsBuilder:
+                        (context, animation, secondaryAnimation, child) {
+                          return FadeTransition(
+                            opacity: animation,
+                            child: ScaleTransition(
+                              scale: Tween<double>(begin: 0.95, end: 1.0)
+                                  .animate(
+                                    CurvedAnimation(
+                                      parent: animation,
+                                      curve: Curves.easeOutCubic,
+                                    ),
+                                  ),
+                              child: child,
+                            ),
+                          );
+                        },
+                  ),
+                );
               },
               child: const Center(
                 child: Text(
@@ -238,10 +230,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
             ),
           ),
         ),
-
         const SizedBox(height: 16),
-
-        // Secondary button (Register)
         Container(
           width: double.infinity,
           height: 56,
@@ -264,19 +253,33 @@ class _WelcomeScreenState extends State<WelcomeScreen>
             color: Colors.transparent,
             child: InkWell(
               borderRadius: BorderRadius.circular(16),
-              onTap: () async {
-                // Ensure keyboard is hidden before navigation
-                FocusScope.of(context).unfocus();
-                await Future.delayed(const Duration(milliseconds: 100));
-
-                if (mounted) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const SignupScreen(),
-                    ),
-                  );
-                }
+              onTap: () {
+                HapticFeedback.lightImpact();
+                Navigator.push(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation, secondaryAnimation) =>
+                        const SignupScreen(),
+                    // REVISED: New transition style
+                    transitionDuration: const Duration(milliseconds: 300),
+                    transitionsBuilder:
+                        (context, animation, secondaryAnimation, child) {
+                          return FadeTransition(
+                            opacity: animation,
+                            child: ScaleTransition(
+                              scale: Tween<double>(begin: 0.95, end: 1.0)
+                                  .animate(
+                                    CurvedAnimation(
+                                      parent: animation,
+                                      curve: Curves.easeOutCubic,
+                                    ),
+                                  ),
+                              child: child,
+                            ),
+                          );
+                        },
+                  ),
+                );
               },
               child: Center(
                 child: Text(
@@ -292,10 +295,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
             ),
           ),
         ),
-
         const SizedBox(height: 32),
-
-        // Terms and privacy with clickable links
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 4),
           child: RichText(
@@ -331,7 +331,6 @@ class _WelcomeScreenState extends State<WelcomeScreen>
             ),
           ),
         ),
-
         const SizedBox(height: 16),
       ],
     );

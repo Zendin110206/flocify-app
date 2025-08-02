@@ -23,14 +23,20 @@ class _SupplierProfileScreenState extends ConsumerState<SupplierProfileScreen> {
 
   final List<String> _selectedProducts = [];
 
-  // REVISED: Using consistent color scheme
   static const Color primaryColor = Color(0xFF2563EB);
   static const Color backgroundColor = Color(0xFFFAFBFC);
   static const Color textPrimary = Color(0xFF0F172A);
   static const Color textSecondary = Color(0xFF475569);
 
   final List<String> _productList = [
-    'Pakan Ikan', 'Bibit/Benih', 'Obat-obatan', 'Probiotik', 'Aerator', 'Pompa Air', 'Jaring', 'Peralatan Monitoring',
+    'Pakan Ikan',
+    'Bibit/Benih',
+    'Obat-obatan',
+    'Probiotik',
+    'Aerator',
+    'Pompa Air',
+    'Jaring',
+    'Peralatan Monitoring',
   ];
 
   @override
@@ -64,7 +70,7 @@ class _SupplierProfileScreenState extends ConsumerState<SupplierProfileScreen> {
     }
 
     HapticFeedback.mediumImpact();
-    final userProfileAsync = ref.read(userProfileProvider);
+    final userProfileAsync = ref.read(userProfileStreamProvider);
     final currentProfile = userProfileAsync.asData?.value;
 
     if (currentProfile == null) {
@@ -99,6 +105,32 @@ class _SupplierProfileScreenState extends ConsumerState<SupplierProfileScreen> {
     }
   }
 
+  // Fungsi ini dipanggil untuk menampilkan dialog konfirmasi.
+  void _showExitConfirmationDialog(BuildContext context) {
+    showDialog<void>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Batalkan Pengisian Profil?'),
+        content: const Text(
+          'Anda akan kembali ke halaman pemilihan peran. Data yang sudah Anda isi di halaman ini tidak akan tersimpan.',
+        ),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(), // Hanya tutup dialog
+            child: const Text('Lanjutkan Mengisi'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(); // Tutup dialog
+              Navigator.of(context).pop(); // Kembali ke layar sebelumnya
+            },
+            child: const Text('Ya, Kembali'),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     ref.listen<AsyncValue<void>>(profileSetupControllerProvider, (prev, next) {
@@ -109,13 +141,13 @@ class _SupplierProfileScreenState extends ConsumerState<SupplierProfileScreen> {
       }
     });
 
-    final userProfileAsync = ref.watch(userProfileProvider);
+    final userProfileAsync = ref.watch(userProfileStreamProvider);
     final profileSetupState = ref.watch(profileSetupControllerProvider);
     final isSaving = profileSetupState is AsyncLoading;
 
+    // Tidak ada lagi PopScope di sini
     return Scaffold(
       backgroundColor: backgroundColor,
-      // REVISED: AppBar removed for custom header
       body: userProfileAsync.when(
         data: (userProfile) {
           if (userProfile == null) {
@@ -130,10 +162,9 @@ class _SupplierProfileScreenState extends ConsumerState<SupplierProfileScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // REVISED: Header made consistent
                     _buildHeader(userProfile.fullName),
                     const SizedBox(height: 32),
-                    
+
                     TextFormField(
                       controller: _businessNameController,
                       decoration: _buildInputDecoration(
@@ -176,12 +207,16 @@ class _SupplierProfileScreenState extends ConsumerState<SupplierProfileScreen> {
                           selected: isSelected,
                           onSelected: (selected) =>
                               _onProductSelected(selected, product),
-                          selectedColor: primaryColor.withOpacity(0.2),
+                          selectedColor: primaryColor.withAlpha(
+                            (255 * 0.2).round(),
+                          ),
                           checkmarkColor: primaryColor,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8),
                             side: BorderSide(
-                              color: isSelected ? primaryColor : Colors.grey.shade300,
+                              color: isSelected
+                                  ? primaryColor
+                                  : Colors.grey.shade300,
                             ),
                           ),
                         );
@@ -200,7 +235,9 @@ class _SupplierProfileScreenState extends ConsumerState<SupplierProfileScreen> {
                             borderRadius: BorderRadius.circular(16),
                           ),
                           elevation: 5,
-                          shadowColor: primaryColor.withOpacity(0.4),
+                          shadowColor: primaryColor.withAlpha(
+                            (255 * 0.4).round(),
+                          ),
                         ),
                         onPressed: isSaving ? null : _submitProfile,
                         child: isSaving
@@ -235,7 +272,6 @@ class _SupplierProfileScreenState extends ConsumerState<SupplierProfileScreen> {
     );
   }
 
-  // REVISED: Header widget to match other screens
   Widget _buildHeader(String userName) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -248,7 +284,7 @@ class _SupplierProfileScreenState extends ConsumerState<SupplierProfileScreen> {
                 borderRadius: BorderRadius.circular(14),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.06),
+                    color: Colors.black.withAlpha((255 * 0.06).round()),
                     blurRadius: 12,
                     offset: const Offset(0, 3),
                   ),
@@ -260,14 +296,9 @@ class _SupplierProfileScreenState extends ConsumerState<SupplierProfileScreen> {
                   color: Color(0xFF64748B),
                   size: 18,
                 ),
-                onPressed: () async {
-                  HapticFeedback.lightImpact();
-                  FocusScope.of(context).unfocus();
-                  await Future.delayed(const Duration(milliseconds: 600));
-
-                  if (mounted) {
-                    Navigator.pop(context);
-                  }
+                // INI ADALAH PERUBAHAN UTAMA
+                onPressed: () {
+                  _showExitConfirmationDialog(context);
                 },
               ),
             ),
