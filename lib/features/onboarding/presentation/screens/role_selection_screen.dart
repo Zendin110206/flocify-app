@@ -1,6 +1,7 @@
 // lib/features/onboarding/presentation/screens/role_selection_screen.dart
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'farmer_profile_screen.dart';
 import 'buyer_profile_screen.dart';
 import 'supplier_profile_screen.dart';
@@ -15,6 +16,12 @@ class RoleSelectionScreen extends StatefulWidget {
 class _RoleSelectionScreenState extends State<RoleSelectionScreen> {
   String? _selectedRole;
 
+  // REVISED: Using consistent color scheme
+  static const Color primaryColor = Color(0xFF2563EB);
+  static const Color backgroundColor = Color(0xFFFAFBFC);
+  static const Color textPrimary = Color(0xFF0F172A);
+  static const Color textSecondary = Color(0xFF475569);
+
   void _selectRole(String role) {
     setState(() {
       _selectedRole = role;
@@ -24,69 +31,41 @@ class _RoleSelectionScreenState extends State<RoleSelectionScreen> {
   void _navigateToNextScreen() {
     if (_selectedRole == null) return;
 
-    // Ganti print dengan navigasi yang sebenarnya untuk semua peran
+    HapticFeedback.mediumImpact();
+    Widget nextScreen;
     if (_selectedRole == 'farmer') {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const FarmerProfileScreen()),
-      );
+      nextScreen = const FarmerProfileScreen();
     } else if (_selectedRole == 'buyer') {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const BuyerProfileScreen()),
-      );
+      nextScreen = const BuyerProfileScreen();
     } else {
       // 'supplier'
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const SupplierProfileScreen()),
-      );
+      nextScreen = const SupplierProfileScreen();
     }
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => nextScreen),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    const Color primaryColor = Color(0xFF1E88E5);
-
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.grey.shade800),
-          onPressed: () => Navigator.pop(context),
-        ),
-      ),
+      backgroundColor: backgroundColor,
+      // REVISED: AppBar removed to use custom header
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
-          // Gunakan Column sebagai layout utama
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Bagian konten yang bisa di-scroll dibungkus dengan Expanded
               Expanded(
                 child: SingleChildScrollView(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const SizedBox(height: 20),
-                      Text(
-                        'Pilih Peran Anda',
-                        style: TextStyle(
-                          fontSize: 28,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.grey.shade800,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        'Pilih peran yang sesuai dengan bisnis Anda.',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.grey.shade600,
-                        ),
-                      ),
+                      // REVISED: Header section made consistent
+                      _buildHeader(),
                       const SizedBox(height: 40),
                       _RoleCard(
                         title: 'Peternak/Budidaya',
@@ -116,12 +95,11 @@ class _RoleSelectionScreenState extends State<RoleSelectionScreen> {
                         isSelected: _selectedRole == 'supplier',
                         onTap: () => _selectRole('supplier'),
                       ),
-                      const SizedBox(height: 24), // Spasi di akhir list
+                      const SizedBox(height: 24),
                     ],
                   ),
                 ),
               ),
-              // Tombol diletakkan di luar Expanded, sehingga selalu di bawah
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
@@ -132,8 +110,10 @@ class _RoleSelectionScreenState extends State<RoleSelectionScreen> {
                     foregroundColor: Colors.white,
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(16),
                     ),
+                    elevation: _selectedRole != null ? 5 : 0,
+                    shadowColor: primaryColor.withOpacity(0.4),
                   ),
                   onPressed: _selectedRole != null
                       ? _navigateToNextScreen
@@ -149,6 +129,65 @@ class _RoleSelectionScreenState extends State<RoleSelectionScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  // REVISED: Header widget to match other screens
+  Widget _buildHeader() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(height: 24),
+        Row(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(14),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.06),
+                    blurRadius: 12,
+                    offset: const Offset(0, 3),
+                  ),
+                ],
+              ),
+              child: IconButton(
+                icon: const Icon(
+                  Icons.arrow_back_ios_new_rounded,
+                  color: Color(0xFF64748B),
+                  size: 18,
+                ),
+                onPressed: () {
+                  HapticFeedback.lightImpact();
+                  Navigator.pop(context);
+                },
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 30),
+        const Text(
+          'Pilih Peran Anda',
+          style: TextStyle(
+            fontSize: 34,
+            fontWeight: FontWeight.w800,
+            color: textPrimary,
+            letterSpacing: -0.8,
+            height: 1.1,
+          ),
+        ),
+        const SizedBox(height: 8),
+        const Text(
+          'Pilih peran yang paling sesuai dengan bisnis Anda di ekosistem akuakultur.',
+          style: TextStyle(
+            fontSize: 17,
+            color: textSecondary,
+            height: 1.4,
+            fontWeight: FontWeight.w400,
+          ),
+        ),
+      ],
     );
   }
 }
@@ -172,20 +211,32 @@ class _RoleCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const Color primaryColor = Color(0xFF1E88E5);
+    const Color cardPrimaryColor = Color(0xFF2563EB);
 
     return GestureDetector(
-      onTap: onTap,
+      onTap: () {
+        HapticFeedback.lightImpact();
+        onTap();
+      },
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
           border: Border.all(
-            color: isSelected ? primaryColor : Colors.grey.shade300,
-            width: isSelected ? 2 : 1,
+            color: isSelected ? cardPrimaryColor : const Color(0xFFE2E8F0),
+            width: isSelected ? 2 : 1.5,
           ),
-          borderRadius: BorderRadius.circular(16),
-          color: isSelected ? primaryColor.withOpacity(0.05) : Colors.white,
+          borderRadius: BorderRadius.circular(20),
+          color: isSelected ? cardPrimaryColor.withOpacity(0.05) : Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: isSelected
+                  ? cardPrimaryColor.withOpacity(0.1)
+                  : Colors.black.withOpacity(0.03),
+              blurRadius: 15,
+              offset: const Offset(0, 5),
+            ),
+          ],
         ),
         child: Row(
           children: [
@@ -193,12 +244,12 @@ class _RoleCard extends StatelessWidget {
               width: 50,
               height: 50,
               decoration: BoxDecoration(
-                color: isSelected ? primaryColor : Colors.grey.shade100,
-                borderRadius: BorderRadius.circular(12),
+                color: isSelected ? cardPrimaryColor : Colors.grey.shade100,
+                borderRadius: BorderRadius.circular(16),
               ),
               child: Icon(
                 icon,
-                color: isSelected ? Colors.white : Colors.grey.shade600,
+                color: isSelected ? Colors.white : const Color(0xFF475569),
                 size: 24,
               ),
             ),
@@ -211,20 +262,32 @@ class _RoleCard extends StatelessWidget {
                     title,
                     style: TextStyle(
                       fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      color: isSelected ? primaryColor : Colors.grey.shade800,
+                      fontWeight: FontWeight.bold,
+                      color: isSelected
+                          ? cardPrimaryColor
+                          : const Color(0xFF0F172A),
                     ),
                   ),
                   const SizedBox(height: 4),
                   Text(
                     description,
-                    style: TextStyle(fontSize: 14, color: Colors.grey.shade600),
+                    style: const TextStyle(
+                      fontSize: 14,
+                      color: Color(0xFF475569),
+                    ),
                   ),
                 ],
               ),
             ),
             if (isSelected)
-              Icon(Icons.check_circle, color: primaryColor, size: 24),
+              const Padding(
+                padding: EdgeInsets.only(left: 8.0),
+                child: Icon(
+                  Icons.check_circle,
+                  color: cardPrimaryColor,
+                  size: 24,
+                ),
+              ),
           ],
         ),
       ),
