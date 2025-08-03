@@ -9,12 +9,12 @@ class NewFeaturesSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(top: 24, left: 14, right: 16, bottom: 10),
+      margin: const EdgeInsets.only(top: 24, left: 18, right: 18, bottom: 10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 4.0),
+            padding: EdgeInsets.symmetric(horizontal: 0),
             child: Text(
               'Fitur Terbaru',
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
@@ -64,10 +64,10 @@ class NewFeaturesSection extends StatelessWidget {
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: [color.withAlpha((0.1*2555).round()), color.withAlpha(0)],
+            colors: [color.withAlpha((0.1*255).round()), color.withAlpha(0)],
           ),
           borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: color.withAlpha((0.2*2555).round())),
+          border: Border.all(color: color.withAlpha((0.2*255).round())),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -76,7 +76,7 @@ class NewFeaturesSection extends StatelessWidget {
               width: 40,
               height: 40,
               decoration: BoxDecoration(
-                color: color.withAlpha((0.1*2555).round()),
+                color: color.withAlpha((0.1*255).round()),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Icon(icon, color: color, size: 20),

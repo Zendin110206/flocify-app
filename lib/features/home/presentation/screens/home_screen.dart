@@ -26,8 +26,8 @@ class HomeScreen extends ConsumerWidget {
           padding: EdgeInsets.zero,
           children: [
             // DIUBAH: Panggil method baru yang berisi Stack untuk header + search bar
-            _buildScrollableHeader(),
-
+            _buildScrollableHeader(context),
+            const SizedBox(height: 24), // <— ruang baru 16 px
             // Sisa konten halaman akan mengikuti di bawahnya
             const ReportOverviewSection(),
             const CategorySection(),
@@ -40,23 +40,24 @@ class HomeScreen extends ConsumerWidget {
       ),
     );
   }
-  
+
   // BARU: Widget khusus untuk menggabungkan header dan search bar
   // agar posisinya pas seperti desain awal.
-  Widget _buildScrollableHeader() {
-    // Container ini menentukan area total yang ditempati oleh header dan search bar
-    // sebelum konten lain dimulai. Angka 170 adalah hasil penyesuaian agar pas.
+  Widget _buildScrollableHeader(BuildContext context) {
+    final headerHeight = MediaQuery.of(context).size.height * 0.19;
+
     return SizedBox(
-      height: 170, 
+      height: headerHeight,
       child: Stack(
+        clipBehavior: Clip.none, // agar search-bar boleh keluar area
         children: [
           const HomeHeader(),
-          
-          // Posisi SearchBar sama persis seperti kode awal Anda
+
+          // ——— posisi baru ———
           Positioned(
-            top: 120,
-            left: 24,
-            right: 24,
+            top: headerHeight - 46 / 2 - 8, // rumus di atas
+            left: 18,
+            right: 18,
             child: _buildSearchBar(),
           ),
         ],
@@ -87,7 +88,10 @@ class HomeScreen extends ConsumerWidget {
               decoration: InputDecoration(
                 hintText: 'Mencari sesuatu? Ketik saja...',
                 border: InputBorder.none,
-                hintStyle: TextStyle(color: Color.fromARGB(255, 86, 81, 81), fontSize: 16),
+                hintStyle: TextStyle(
+                  color: Color.fromARGB(255, 86, 81, 81),
+                  fontSize: 16,
+                ),
               ),
             ),
           ),

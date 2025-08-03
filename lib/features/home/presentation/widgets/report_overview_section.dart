@@ -15,7 +15,7 @@ class ReportOverviewSection extends ConsumerWidget {
     final selectedCommodity = ref.watch(selectedCommodityProvider);
 
     return Container(
-      margin: const EdgeInsets.only(top: 24, left: 16, right: 16),
+      margin: const EdgeInsets.only(top: 24, left: 18, right: 18),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -48,7 +48,7 @@ class ReportOverviewSection extends ConsumerWidget {
       margin: const EdgeInsets.only(top: 16, bottom: 10),
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        padding: const EdgeInsets.symmetric(horizontal: 4),
+        padding: EdgeInsets.zero,
         itemCount: commodities.length,
         itemBuilder: (context, index) {
           final commodity = commodities[index];
@@ -97,7 +97,16 @@ class _CarouselContainer extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final pageController = PageController();
     final totalPages = (ponds.length / 4).ceil();
+    final screenWidth = MediaQuery.of(context).size.width;
 
+    // INI TUH EMANG GPT KARENA AKU KURANG MEMAHAMI BAGAIMANA RESPONSIF SUATU LAYAR BEKERJA
+    /// Kalau kita pakai padding 16 + 12 + 16 = 44 di kanan-kiri,
+    /// maka lebar tiap kartu ≈ (screenWidth - 44) / 2.
+    /// Tinggi kontainer = 2 baris kartu + padding-spacing internal (≈ 60 px).
+    final cardSide = (screenWidth - 44) / 2;
+    final containerHeight = // ①
+        ((cardSide * 2) + 40.0) //   ← seluruh hasil dijumlah dulu
+            .clamp(170.0, 210.0); // ② lalu di-clamp
     // Listener untuk sinkronisasi PageController dengan StateProvider
     pageController.addListener(() {
       if (pageController.page?.round() != ref.read(carouselIndexProvider)) {
@@ -107,13 +116,13 @@ class _CarouselContainer extends ConsumerWidget {
     });
 
     return Container(
-      height: 207,
+      height: containerHeight,
       decoration: BoxDecoration(
         color: const Color(0xFF8AAEE0),
         borderRadius: BorderRadius.circular(23),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withAlpha((0.2*255).round()),
+            color: Colors.black.withAlpha((0.2 * 255).round()),
             blurRadius: 4,
             offset: const Offset(0, 2),
           ),
@@ -144,14 +153,14 @@ class _CarouselContainer extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: List.generate(totalPages, (index) {
             return AnimatedContainer(
-              duration: const Duration(milliseconds: 300),
+              duration: const Duration(milliseconds: 200),
               margin: const EdgeInsets.symmetric(horizontal: 4),
-              width: currentIndex == index ? 12.0 : 8.0,
+              width: currentIndex == index ? 8.0 : 8.0,
               height: 8.0,
               decoration: BoxDecoration(
                 color: currentIndex == index
                     ? Colors.white
-                    : Colors.white.withAlpha((0.5*255).round()),
+                    : Colors.white.withAlpha((0.5 * 255).round()),
                 borderRadius: BorderRadius.circular(12),
               ),
             );

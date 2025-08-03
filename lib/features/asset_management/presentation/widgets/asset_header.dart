@@ -104,7 +104,7 @@ class AssetHeader extends ConsumerWidget {
       child: Row(
         children: [
           const Text(
-            'Aset Saya',
+            'Kelola Aset',
             style: TextStyle(
               fontSize: 22,
               fontWeight: FontWeight.bold,

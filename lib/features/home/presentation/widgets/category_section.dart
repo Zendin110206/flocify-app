@@ -21,8 +21,13 @@ class CategorySection extends ConsumerWidget {
       {'title': 'Device', 'icon': Icons.devices},
     ];
 
+    final cardSize = (MediaQuery.of(context).size.width * 0.24).clamp(
+      72.0,
+      110.0,
+    );
+
     return Container(
-      margin: const EdgeInsets.only(top: 32, left: 16, right: 16, bottom: 10),
+      margin: const EdgeInsets.only(top: 32, left: 18, right: 18, bottom: 10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -32,7 +37,7 @@ class CategorySection extends ConsumerWidget {
           ),
           const SizedBox(height: 12),
           SizedBox(
-            height: 85,
+            height: cardSize, // tinggi = ukuran kartu
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
               padding: const EdgeInsets.symmetric(horizontal: 4),
@@ -75,6 +80,7 @@ class CategorySection extends ConsumerWidget {
                       ref.read(selectedCategoryProvider.notifier).state = index;
                     }
                   },
+                  cardSize,
                   // --- AKHIR DARI PERUBAHAN ---
                   // =========================================================
                 );
@@ -92,12 +98,13 @@ class CategorySection extends ConsumerWidget {
     int index,
     bool isActive,
     VoidCallback onTap,
+    double size,
   ) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: 80,
-        height: 80,
+        width: size,
+        height: size,
         decoration: BoxDecoration(
           color: isActive ? const Color(0xFF395886) : Colors.white,
           borderRadius: BorderRadius.circular(20),
@@ -122,7 +129,7 @@ class CategorySection extends ConsumerWidget {
             Icon(
               icon,
               color: isActive ? Colors.white : const Color(0xFF2F3F56),
-              size: 32,
+              size: size * 0.40,
             ),
             const SizedBox(height: 6),
             Text(
