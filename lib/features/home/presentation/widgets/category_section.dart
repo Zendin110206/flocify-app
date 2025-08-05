@@ -1,3 +1,5 @@
+// Path: lib/features/home/presentation/widgets/category_section.dart
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/home_providers.dart';

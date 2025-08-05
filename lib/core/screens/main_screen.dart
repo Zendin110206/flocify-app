@@ -8,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:proyek_flocify/features/auth/presentation/providers/auth_providers.dart';
 import 'package:proyek_flocify/features/home/presentation/screens/home_screen.dart';
 import 'package:proyek_flocify/features/asset_management/presentation/screens/asset_management_screen.dart';
+import 'package:proyek_flocify/features/cultivation/presentation/screens/cultivation_screen.dart';
 
 class HomePagePlaceholder extends ConsumerWidget {
   const HomePagePlaceholder({super.key});
@@ -45,10 +46,10 @@ class _MainScreenState extends State<MainScreen> {
   int _currentIndex = 0;
 
   final List<Widget> _screens = [
-    const HomeScreen(), // Indeks 0 <-- Gunakan placeholder dulu
-    const ManagementScreen(), // Indeks 1 <-- Halaman yang sudah kita refactor
+    const HomeScreen(), // Indeks 0
+    const ManagementScreen(), // Indeks 1
     const AssetManagementScreen(), // Indeks 2
-    const Center(child: Text('Halaman Analisis')), // Indeks 3
+    const CultivationScreen(), // Indeks 3
     const Center(child: Text('Halaman Parameter')), // Indeks 4
   ];
 

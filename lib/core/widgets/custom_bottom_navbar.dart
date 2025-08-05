@@ -15,11 +15,11 @@ class CustomBottomNavigationBar extends StatelessWidget {
 
   /// Your five tabs, in order.
   static const List<_NavItem> _items = [
-    _NavItem(icon: Icons.home_filled,       label: 'Home'),
-    _NavItem(icon: Icons.trending_up_rounded, label: 'Management'),
-    _NavItem(icon: Icons.add_box_rounded,   label: 'Input'),
-    _NavItem(icon: Icons.analytics_rounded, label: 'Analysis'),
-    _NavItem(icon: Icons.settings_rounded,  label: 'Parameter'),
+    _NavItem(icon: Icons.home_filled, label: 'Beranda'),
+    _NavItem(icon: Icons.trending_up_rounded, label: 'Manajemen'),
+    _NavItem(icon: Icons.add_box_rounded, label: 'Input'),
+    _NavItem(icon: Icons.water_drop_outlined, label: 'Budidaya'),
+    _NavItem(icon: Icons.person_outline, label: 'Pengaturan'),
   ];
 
   const CustomBottomNavigationBar({
@@ -31,7 +31,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const double barHeight = 70;
-    const Color bgColor     = Color(0xFFD5DEEF);
+    const Color bgColor = Color(0xFFD5DEEF);
     const Color activeColor = Color(0xFF395886);
     // 37,37,37 with 50% alpha → rgba(37,37,37,0.5)
     final Color inactiveColor = const Color(0xFF252525).withValues(alpha: 0.5);

@@ -75,7 +75,7 @@ class _HeaderContent extends StatelessWidget {
     ];
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 20),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -107,7 +107,7 @@ class _HeaderContent extends StatelessWidget {
             ),
           ),
 
-          const SizedBox(width: 16),
+          const SizedBox(width: 18),
 
           // Tombol kecil kanan
           Row(
@@ -193,7 +193,7 @@ class _TabNavigation extends ConsumerWidget {
     final activeIndex = ref.watch(managementTabProvider);
 
     return Container(
-      margin: const EdgeInsets.fromLTRB(16, 20, 16, 8),
+      margin: const EdgeInsets.fromLTRB(18, 20, 18, 8),
       padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
         color: Colors.white,

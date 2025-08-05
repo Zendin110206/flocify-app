@@ -1,4 +1,4 @@
-// Path: lib/features/home/presentation/widgets/home_header.dart (VERSI FINAL & BENAR)
+// Path: lib/features/home/presentation/widgets/home_header.dart
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
