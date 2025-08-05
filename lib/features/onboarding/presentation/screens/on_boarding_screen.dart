@@ -157,7 +157,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                   borderRadius: BorderRadius.circular(20),
                   boxShadow: [
                     BoxShadow(
-                      color: item.primaryColor.withOpacity(0.15),
+                      color: item.primaryColor.withAlpha((0.15 * 255).round()),
                       blurRadius: 20,
                       offset: const Offset(0, 8),
                     ),
@@ -192,7 +192,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w400,
-                  color: const Color(0xFF1A1A1A).withOpacity(0.6),
+                  color: const Color(0xFF1A1A1A).withAlpha((0.6 * 255).round()),
                   height: 1.5,
                   letterSpacing: 0.1,
                 ),

@@ -1,4 +1,4 @@
-// Path: lib/features/pond_creation/presentation/widgets/step_4_final_details.dart
+// Path: lib/features/asset_management/tab/pond_creation/presentation/widgets/step_4_final_details.dart
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -86,7 +86,7 @@ class Step4FinalDetails extends ConsumerWidget {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.04),
+            color: Colors.black.withAlpha((0.04*255).round()),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -170,7 +170,6 @@ class _DeviceOptionCard extends StatelessWidget {
               width: isSelected ? 2 : 1,
             ),
             boxShadow: [
-              // PERBAIKAN: Mengganti withOpacity
               if (!isSelected)
                 BoxShadow(
                   color: Colors.black.withAlpha((255 * 0.04).round()),
@@ -181,7 +180,6 @@ class _DeviceOptionCard extends StatelessWidget {
           ),
           child: Row(
             children: [
-              // PERBAIKAN: Mengganti withOpacity
               Container(
                 width: 40,
                 height: 40,

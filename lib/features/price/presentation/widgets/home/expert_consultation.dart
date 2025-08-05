@@ -1,4 +1,4 @@
-// lib/widgets/home/expert_consultation.dart
+//lib/features/price/presentation/widgets/home/expert_consultation.dart
 import 'package:flutter/material.dart';
 
 class ExpertConsultationSection extends StatelessWidget {
@@ -17,7 +17,7 @@ class ExpertConsultationSection extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF11998e).withOpacity(0.3),
+            color: const Color(0xFF11998e).withAlpha((0.3*255).round()),
             blurRadius: 12,
             offset: const Offset(0, 4),
           ),
@@ -31,7 +31,7 @@ class ExpertConsultationSection extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.2),
+                  color: Colors.white.withAlpha((0.2*255).round()),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: const Text('👨‍⚕️', style: TextStyle(fontSize: 24)),
@@ -119,9 +119,9 @@ class ExpertConsultationSection extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.15),
+        color: Colors.white.withAlpha((0.15*255).round()),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.white.withOpacity(0.3)),
+        border: Border.all(color: Colors.white.withAlpha((0.3*255).round())),
       ),
       child: Column(
         children: [
@@ -156,7 +156,7 @@ class ExpertConsultationSection extends StatelessWidget {
           Text(
             specialty,
             style: TextStyle(
-              color: Colors.white.withOpacity(0.8),
+              color: Colors.white.withAlpha((0.8*255).round()),
               fontSize: 10,
             ),
           ),

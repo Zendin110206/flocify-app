@@ -1,4 +1,4 @@
-// lib/widgets/custom_bottom_navbar.dart
+//lib/features/price/presentation/widgets/custom_bottom_navbar.dart
 
 import 'package:flutter/material.dart';
 

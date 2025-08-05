@@ -1,4 +1,4 @@
-// Path: lib/features/pond_creation/presentation/widgets/step_3_cultivation_plan.dart
+// Path: lib/features/asset_management/tab/pond_creation/presentation/widgets/step_3_cultivation_plan.dart
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -66,7 +66,7 @@ class Step3CultivationPlan extends ConsumerWidget {
             isSelected: isSelected,
             onTap: () => wizardController.selectPlan(plan['name'] as String),
           );
-        }).toList(),
+        }),
       ],
     );
   }
@@ -104,7 +104,9 @@ class _PlanCard extends StatelessWidget {
         child: Ink(
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
-            color: isSelected ? primaryColor.withOpacity(0.05) : Colors.white,
+            color: isSelected
+                ? primaryColor.withAlpha((0.05 * 255).round())
+                : Colors.white,
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
               color: isSelected ? primaryColor : Colors.grey[200]!,
@@ -113,7 +115,7 @@ class _PlanCard extends StatelessWidget {
             boxShadow: [
               if (!isSelected)
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.04),
+                  color: Colors.black.withAlpha((0.04 * 255).round()),
                   blurRadius: 8,
                   offset: const Offset(0, 2),
                 ),
@@ -166,9 +168,7 @@ class _PlanCard extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 8),
-                  ...features
-                      .map((feature) => _buildFeatureItem(feature))
-                      .toList(),
+                  ...features.map((feature) => _buildFeatureItem(feature)),
                 ],
               ),
               if (isSelected)

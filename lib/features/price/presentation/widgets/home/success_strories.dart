@@ -1,4 +1,4 @@
-// lib/widgets/home/success_stories.dart
+//lib/features/price/presentation/widgets/home/success_stories.dart
 
 import 'package:flutter/material.dart';
 
@@ -110,7 +110,7 @@ class SuccessCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: gradientColors[0].withOpacity(0.25),
+            color: gradientColors[0].withAlpha((0.25*255).round()),
             blurRadius: 8,
             offset: const Offset(0, 2),
             spreadRadius: 0,
@@ -126,10 +126,10 @@ class SuccessCard extends StatelessWidget {
                 width: 40,
                 height: 40,
                 decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.25),
+                  color: Colors.white.withAlpha((0.25*255).round()),
                   borderRadius: BorderRadius.circular(20),
                   border: Border.all(
-                    color: Colors.white.withOpacity(0.3),
+                    color: Colors.white.withAlpha((0.3*255).round()),
                     width: 1,
                   ),
                 ),
@@ -160,7 +160,7 @@ class SuccessCard extends StatelessWidget {
                     Text(
                       location,
                       style: TextStyle(
-                        color: Colors.white.withOpacity(0.85),
+                        color: Colors.white.withAlpha((0.85*255).round()),
                         fontSize: 11,
                       ),
                     ),
@@ -170,10 +170,10 @@ class SuccessCard extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.25),
+                  color: Colors.white.withAlpha((0.25*255).round()),
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(
-                    color: Colors.white.withOpacity(0.3),
+                    color: Colors.white.withAlpha((0.3*255).round()),
                     width: 1,
                   ),
                 ),
@@ -192,7 +192,7 @@ class SuccessCard extends StatelessWidget {
           Text(
             story,
             style: TextStyle(
-              color: Colors.white.withOpacity(0.9),
+              color: Colors.white.withAlpha((0.9*255).round()),
               fontSize: 12,
               height: 1.4,
             ),
@@ -203,7 +203,7 @@ class SuccessCard extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.2),
+              color: Colors.white.withAlpha((0.2*255).round()),
               borderRadius: BorderRadius.circular(8),
             ),
             child: Row(

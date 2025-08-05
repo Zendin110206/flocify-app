@@ -1,4 +1,4 @@
-// Path: lib/features/flora/presentation/widgets/captured_images_row.dart
+// Path: lib/features/home/tab/flora/presentation/widgets/captured_images_row.dart
 
 import 'package:flutter/material.dart';
 import 'package:proyek_flocify/features/flora/domain/models/detection_guide.dart';

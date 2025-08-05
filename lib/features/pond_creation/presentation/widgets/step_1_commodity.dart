@@ -1,4 +1,4 @@
-// Path: lib/features/pond_creation/presentation/widgets/step_1_commodity.dart
+// Path: lib/features/asset_management/tab/pond_creation/presentation/widgets/step_1_commodity.dart
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -67,7 +67,7 @@ class Step1Commodity extends ConsumerWidget {
             isSelected: isSelected,
             onTap: () => wizardController.selectCommodity(commodity['name']!),
           );
-        }).toList(),
+        }),
       ],
     );
   }
@@ -101,7 +101,9 @@ class _CommodityCard extends StatelessWidget {
         child: Ink(
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
-            color: isSelected ? primaryColor.withOpacity(0.05) : Colors.white,
+            color: isSelected
+                ? primaryColor.withAlpha((0.05 * 255).round())
+                : Colors.white,
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
               color: isSelected ? primaryColor : Colors.grey[200]!,
@@ -110,7 +112,7 @@ class _CommodityCard extends StatelessWidget {
             boxShadow: [
               if (!isSelected)
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.04),
+                  color: Colors.black.withAlpha((0.04 * 255).round()),
                   blurRadius: 8,
                   offset: const Offset(0, 2),
                 ),
@@ -123,7 +125,7 @@ class _CommodityCard extends StatelessWidget {
                 height: 50,
                 decoration: BoxDecoration(
                   color: isSelected
-                      ? primaryColor.withOpacity(0.1)
+                      ? primaryColor.withAlpha((0.1 * 255).round())
                       : Colors.grey[100],
                   borderRadius: BorderRadius.circular(12),
                 ),

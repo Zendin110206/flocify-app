@@ -138,7 +138,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                 Container(
                   padding: const EdgeInsets.all(4),
                   decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.2),
+                    color: Colors.white.withAlpha((0.2*255).round()),
                     borderRadius: BorderRadius.circular(6),
                   ),
                   child: const Icon(
@@ -283,7 +283,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                   borderRadius: BorderRadius.circular(14),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.06),
+                      color: Colors.black.withAlpha((0.06*255).round()),
                       blurRadius: 12,
                       offset: const Offset(0, 3),
                     ),
@@ -326,7 +326,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
             //         borderRadius: BorderRadius.circular(16),
             //         boxShadow: [
             //           BoxShadow(
-            //             color: primaryColor.withOpacity(0.25),
+            //             color: primaryColor.withAlpha((0.2*255).round()5),
             //             blurRadius: 16,
             //             offset: const Offset(0, 6),
             //           ),
@@ -517,7 +517,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.04),
+            color: Colors.black.withAlpha((0.04*255).round()),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -616,7 +616,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: primaryColor.withOpacity(0.3),
+              color: primaryColor.withAlpha((0.3*255).round()),
               blurRadius: 20,
               offset: const Offset(0, 10),
             ),
@@ -666,8 +666,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
               gradient: LinearGradient(
                 colors: [
                   Colors.transparent,
-                  textTertiary.withOpacity(0.3),
-                  textTertiary.withOpacity(0.3),
+                  textTertiary.withAlpha((0.3*255).round()),
+                  textTertiary.withAlpha((0.3*255).round()),
                   Colors.transparent,
                 ],
               ),
@@ -681,7 +681,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
             decoration: BoxDecoration(
               color: const Color(0xFFF8FAFC),
               borderRadius: BorderRadius.circular(20),
-              border: Border.all(color: textTertiary.withOpacity(0.2)),
+              border: Border.all(color: textTertiary.withAlpha((0.2*255).round())),
             ),
             child: Text(
               'atau masuk dengan',
@@ -701,8 +701,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
               gradient: LinearGradient(
                 colors: [
                   Colors.transparent,
-                  textTertiary.withOpacity(0.3),
-                  textTertiary.withOpacity(0.3),
+                  textTertiary.withAlpha((0.3*255).round()),
+                  textTertiary.withAlpha((0.3*255).round()),
                   Colors.transparent,
                 ],
               ),
@@ -723,7 +723,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
         border: Border.all(color: const Color(0xFFE2E8F0)),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.04),
+            color: Colors.black.withAlpha((0.04*255).round()),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),

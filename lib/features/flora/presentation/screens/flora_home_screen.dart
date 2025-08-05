@@ -2,10 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:proyek_flocify/features/flora/presentation/screens/history_screen.dart';
-import '../screens/camera_screen.dart';
+import 'camera_screen.dart';
 // Tambahkan import ini di atas
 import 'chat_screen.dart';
-
 
 class FloraHomeScreen extends StatelessWidget {
   const FloraHomeScreen({super.key});
@@ -55,7 +54,7 @@ class FloraHomeScreen extends StatelessWidget {
                       // Tombol Kembali
                       Container(
                         decoration: BoxDecoration(
-                          color: Colors.white.withAlpha((0.3*255).round()),
+                          color: Colors.white.withAlpha((0.3 * 255).round()),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: IconButton(
@@ -79,7 +78,7 @@ class FloraHomeScreen extends StatelessWidget {
                       // Tombol Riwayat
                       Container(
                         decoration: BoxDecoration(
-                          color: Colors.white.withAlpha((0.3*255).round()),
+                          color: Colors.white.withAlpha((0.3 * 255).round()),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: IconButton(

@@ -1,4 +1,4 @@
-// lib/widgets/lapak/simple_item_card.dart
+//lib/features/price/presentation/widgets/lapak/simple_item_card.dart
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 

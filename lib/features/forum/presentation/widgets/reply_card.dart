@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../domain/models/forum_reply.dart';
 import '../providers/reply_providers.dart';
 import 'package:proyek_flocify/features/auth/presentation/providers/auth_providers.dart';
-import '../widgets/action_chip.dart';
+import 'action_chip.dart';
 import 'package:intl/intl.dart';
 
 /// A card widget to display a single reply, with support for indentation.

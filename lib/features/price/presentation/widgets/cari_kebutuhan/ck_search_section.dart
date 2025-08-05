@@ -1,4 +1,4 @@
-// lib/widgets/cari_kebutuhan/ck_search_section.dart
+//lib/features/price/presentation/widgets/cari_kebutuhan/ck_search_section.dart
 import 'package:flutter/material.dart';
 import 'ck_colors.dart';
 
@@ -221,7 +221,7 @@ class _UrgentToggle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final border = active ? CKColors.urgent : CKColors.border;
-    final bg = active ? CKColors.urgent.withOpacity(0.08) : CKColors.surface;
+    final bg = active ? CKColors.urgent.withAlpha((0.08*255).round()) : CKColors.surface;
     final iconColor = active ? CKColors.urgent : CKColors.textSecondary;
     final textColor = active ? CKColors.urgent : CKColors.textPrimary;
 

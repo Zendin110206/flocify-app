@@ -1,4 +1,4 @@
-// lib/widgets/lapak/detail_list.dart
+//lib/features/price/presentation/widgets/lapak/detail_list.dart
 import 'package:flutter/material.dart';
 
 import 'package:proyek_flocify/features/price/presentation/screens/lapak_screen.dart'

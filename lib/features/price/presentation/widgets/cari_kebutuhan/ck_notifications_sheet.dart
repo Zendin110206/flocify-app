@@ -1,4 +1,4 @@
-// lib/widgets/cari_kebutuhan/ck_notifications_sheet.dart
+//lib/features/price/presentation/widgets/cari_kebutuhan/ck_notifications_sheet.dart
 import 'package:flutter/material.dart';
 import 'ck_colors.dart';
 
@@ -64,11 +64,13 @@ class CKNotificationsSheet {
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: isNew
-            ? CKColors.accentBlue.withOpacity(0.05)
+            ? CKColors.accentBlue.withAlpha((0.05 * 255).round())
             : CKColors.surfaceSoft,
         borderRadius: BorderRadius.circular(8),
         border: Border.all(
-          color: isNew ? CKColors.accentBlue.withOpacity(0.2) : CKColors.border,
+          color: isNew
+              ? CKColors.accentBlue.withAlpha((0.2 * 255).round())
+              : CKColors.border,
         ),
       ),
       child: Row(
@@ -76,7 +78,7 @@ class CKNotificationsSheet {
           Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: CKColors.accentBlue.withOpacity(0.1),
+              color: CKColors.accentBlue.withAlpha((0.1 * 255).round()),
               borderRadius: BorderRadius.circular(8),
             ),
             child: Icon(icon, color: CKColors.accentBlue, size: 20),

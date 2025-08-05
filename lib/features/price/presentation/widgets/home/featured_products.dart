@@ -1,4 +1,4 @@
-// lib/widgets/home/featured_products.dart
+//lib/features/price/presentation/widgets/home/featured_products.dart
 import 'package:flutter/material.dart';
 
 class FeaturedProductsSection extends StatelessWidget {
@@ -97,7 +97,7 @@ class ProductCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.06),
+            color: Colors.black.withAlpha((0.06*255).round()),
             blurRadius: 12,
             offset: const Offset(0, 4),
           ),

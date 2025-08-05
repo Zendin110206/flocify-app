@@ -16,7 +16,7 @@ class ActivitySection extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
+            color: Colors.grey.withAlpha((0.1*255).round()),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -59,7 +59,7 @@ class ActivitySection extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: const Color(0xFF638ECB).withOpacity(0.1),
+              color: const Color(0xFF638ECB).withAlpha((0.1*255).round()),
               borderRadius: BorderRadius.circular(8),
             ),
             child: Icon(icon, color: const Color(0xFF638ECB), size: 20),

@@ -153,7 +153,9 @@ class _PromoBannerState extends State<PromoBanner>
                               height: 120,
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
-                                color: Colors.white.withOpacity(0.1),
+                                color: Colors.white.withAlpha(
+                                  (0.1 * 255).round(),
+                                ),
                               ),
                             ),
                           ),
@@ -165,7 +167,9 @@ class _PromoBannerState extends State<PromoBanner>
                               height: 80,
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
-                                color: Colors.white.withOpacity(0.1),
+                                color: Colors.white.withAlpha(
+                                  (0.1 * 255).round(),
+                                ),
                               ),
                             ),
                           ),
@@ -192,8 +196,8 @@ class _PromoBannerState extends State<PromoBanner>
                                             vertical: 2,
                                           ),
                                           decoration: BoxDecoration(
-                                            color: Colors.white.withOpacity(
-                                              0.2,
+                                            color: Colors.white.withAlpha(
+                                              (0.2 * 255).round(),
                                             ),
                                             borderRadius: BorderRadius.circular(
                                               12,
@@ -222,8 +226,8 @@ class _PromoBannerState extends State<PromoBanner>
                                         Text(
                                           _promos[index].description,
                                           style: TextStyle(
-                                            color: Colors.white.withOpacity(
-                                              0.9,
+                                            color: Colors.white.withAlpha(
+                                              (0.9 * 255).round(),
                                             ),
                                             fontSize: 13,
                                             height: 1.3,
@@ -265,10 +269,14 @@ class _PromoBannerState extends State<PromoBanner>
                                     width: 60,
                                     height: 60,
                                     decoration: BoxDecoration(
-                                      color: Colors.white.withOpacity(0.2),
+                                      color: Colors.white.withAlpha(
+                                        (0.2 * 255).round(),
+                                      ),
                                       borderRadius: BorderRadius.circular(30),
                                       border: Border.all(
-                                        color: Colors.white.withOpacity(0.3),
+                                        color: Colors.white.withAlpha(
+                                          (0.3 * 255).round(),
+                                        ),
                                         width: 2,
                                       ),
                                     ),
@@ -293,10 +301,12 @@ class _PromoBannerState extends State<PromoBanner>
                                   begin: Alignment.topLeft,
                                   end: Alignment.bottomRight,
                                   colors: [
-                                    Colors.white.withOpacity(0.1),
+                                    Colors.white.withAlpha((0.1 * 255).round()),
                                     Colors.transparent,
                                     Colors.transparent,
-                                    Colors.white.withOpacity(0.05),
+                                    Colors.white.withAlpha(
+                                      (0.05 * 255).round(),
+                                    ),
                                   ],
                                 ),
                               ),
@@ -337,12 +347,12 @@ class _PromoBannerState extends State<PromoBanner>
                         borderRadius: BorderRadius.circular(4),
                         color: _currentPage == index
                             ? _promos[index].gradientColors[0]
-                            : Colors.grey.withOpacity(0.3),
+                            : Colors.grey.withAlpha((0.3 * 255).round()),
                         boxShadow: _currentPage == index
                             ? [
                                 BoxShadow(
                                   color: _promos[index].gradientColors[0]
-                                      .withOpacity(0.3),
+                                      .withAlpha((0.3 * 255).round()),
                                   blurRadius: 6,
                                   offset: const Offset(0, 2),
                                 ),

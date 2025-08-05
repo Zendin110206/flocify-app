@@ -171,7 +171,7 @@ class _ScanQrScreenState extends ConsumerState<ScanQrScreen>
           Text(
             'Arahkan kamera ke QR code pada Flocify Board',
             style: TextStyle(
-              color: Colors.white.withOpacity(0.8),
+              color: Colors.white.withAlpha((0.8*255).round()),
               fontSize: 16,
             ),
             textAlign: TextAlign.center,
@@ -189,7 +189,7 @@ class _ScanQrScreenState extends ConsumerState<ScanQrScreen>
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(24),
                     border: Border.all(
-                      color: Colors.white.withOpacity(0.3),
+                      color: Colors.white.withAlpha((0.3*255).round()),
                       width: 2,
                     ),
                   ),
@@ -226,9 +226,9 @@ class _ScanQrScreenState extends ConsumerState<ScanQrScreen>
                   vertical: 16,
                 ),
                 decoration: BoxDecoration(
-                  color: Colors.black.withOpacity(0.4),
+                  color: Colors.black.withAlpha((0.4*255).round()),
                   borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: Colors.white.withOpacity(0.1)),
+                  border: Border.all(color: Colors.white.withAlpha((0.1*255).round())),
                 ),
                 child: Row(
                   children: [
@@ -277,9 +277,9 @@ class _ScanQrScreenState extends ConsumerState<ScanQrScreen>
   }) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.black.withOpacity(0.3),
+        color: Colors.black.withAlpha((0.3*255).round()),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.white.withOpacity(0.1)),
+        border: Border.all(color: Colors.white.withAlpha((0.1*255).round())),
       ),
       child: IconButton(
         onPressed: onPressed,
@@ -349,7 +349,7 @@ class _ScanQrScreenState extends ConsumerState<ScanQrScreen>
               gradient: LinearGradient(
                 colors: [
                   Colors.transparent,
-                  const Color(0xFF2563EB).withOpacity(0.8),
+                  const Color(0xFF2563EB).withAlpha((0.8*255).round()),
                   Colors.transparent,
                 ],
               ),

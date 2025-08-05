@@ -26,11 +26,13 @@ class GuideStepCard extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
         decoration: BoxDecoration(
           color: isSelected
-              ? guide.color.withAlpha((0.2*255).round())
-              : Colors.white.withAlpha((0.05*255).round()),
+              ? guide.color.withAlpha((0.2 * 255).round())
+              : Colors.white.withAlpha((0.05 * 255).round()),
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            color: isSelected ? guide.color : Colors.white.withAlpha((0.1*255).round()),
+            color: isSelected
+                ? guide.color
+                : Colors.white.withAlpha((0.1 * 255).round()),
             width: isSelected ? 2 : 1,
           ),
         ),
@@ -44,7 +46,7 @@ class GuideStepCard extends StatelessWidget {
                   guide.icon,
                   color: isSelected
                       ? guide.color
-                      : Colors.white.withAlpha((0.7*255).round()),
+                      : Colors.white.withAlpha((0.7 * 255).round()),
                   size: 24,
                 ),
                 if (isCompleted)
@@ -72,7 +74,9 @@ class GuideStepCard extends StatelessWidget {
               style: TextStyle(
                 fontSize: 10,
                 fontWeight: FontWeight.w500,
-                color: isSelected ? guide.color : Colors.white.withAlpha((0.7*255).round()),
+                color: isSelected
+                    ? guide.color
+                    : Colors.white.withAlpha((0.7 * 255).round()),
               ),
               textAlign: TextAlign.center,
               maxLines: 1,

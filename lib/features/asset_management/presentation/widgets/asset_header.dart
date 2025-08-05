@@ -187,7 +187,7 @@ class AssetHeader extends ConsumerWidget {
                   Text(
                     'Pantau kolam dan perangkat Anda',
                     style: TextStyle(
-                      color: Colors.white.withOpacity(0.9),
+                      color: Colors.white.withAlpha((0.9*255).round()),
                       fontSize: 13,
                     ),
                   ),

@@ -93,7 +93,7 @@ class MarketInsightsSection extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.08),
+            color: Colors.black.withAlpha((0.08*255).round()),
             blurRadius: 20,
             offset: const Offset(0, 4),
             spreadRadius: 0,
@@ -110,7 +110,7 @@ class MarketInsightsSection extends StatelessWidget {
               gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
-                colors: [color.withOpacity(0.1), color.withOpacity(0.05)],
+                colors: [color.withAlpha((0.1*255).round()), color.withAlpha((0.05*255).round())],
               ),
               borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(16),
@@ -152,7 +152,7 @@ class MarketInsightsSection extends StatelessWidget {
                       borderRadius: BorderRadius.circular(16),
                       boxShadow: [
                         BoxShadow(
-                          color: color.withOpacity(0.2),
+                          color: color.withAlpha((0.2*255).round()),
                           blurRadius: 8,
                           offset: const Offset(0, 2),
                         ),
@@ -212,7 +212,7 @@ class MarketInsightsSection extends StatelessWidget {
                           vertical: 6,
                         ),
                         decoration: BoxDecoration(
-                          color: color.withOpacity(0.1),
+                          color: color.withAlpha((0.1*255).round()),
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: Row(

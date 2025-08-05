@@ -41,7 +41,6 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen>
   final _contentFocusNode = FocusNode();
   final _tagsFocusNode = FocusNode();
 
-
   // Animasi juga dikelola oleh state layar
   late AnimationController _slideAnimationController;
   late AnimationController _submitAnimationController;
@@ -52,7 +51,7 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen>
   void initState() {
     super.initState();
     _initializeAnimations();
-    _setupFormListeners();    
+    _setupFormListeners();
   }
 
   void _initializeAnimations() {
@@ -79,8 +78,7 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen>
     _slideAnimationController.forward();
   }
 
-  void _setupFormListeners() {
-  }
+  void _setupFormListeners() {}
 
   @override
   void dispose() {

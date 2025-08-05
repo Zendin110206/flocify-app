@@ -73,7 +73,9 @@ class ForumHeader extends StatelessWidget {
                                 fontSize: 18,
                                 shadows: [
                                   Shadow(
-                                    color: Colors.black.withAlpha((0.25*255).round()),
+                                    color: Colors.black.withAlpha(
+                                      (0.25 * 255).round(),
+                                    ),
                                     blurRadius: 4,
                                     offset: const Offset(0, 2),
                                   ),
@@ -83,7 +85,9 @@ class ForumHeader extends StatelessWidget {
                             Text(
                               'Ayo, sharing bersama pembudidaya lainnya!',
                               style: TextStyle(
-                                color: Colors.white.withAlpha((0.85*255).round()),
+                                color: Colors.white.withAlpha(
+                                  (0.85 * 255).round(),
+                                ),
                                 fontSize: 13,
                               ),
                             ),
@@ -101,7 +105,7 @@ class ForumHeader extends StatelessWidget {
                       borderRadius: BorderRadius.circular(12),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withAlpha((0.1*255).round()),
+                          color: Colors.black.withAlpha((0.1 * 255).round()),
                           blurRadius: 10,
                           offset: const Offset(0, 4),
                         ),

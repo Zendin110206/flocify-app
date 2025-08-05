@@ -1,4 +1,4 @@
-// lib/screens/lapak_screen.dart
+//lib/features/price/presentation/screens/lapak_screen.dart
 import 'package:flutter/material.dart';
 // import 'package:flutter/services.dart'; // tidak dipakai di file ini
 // import 'package:intl/intl.dart'; // belum dipakai, nanti ditambah lagi saat render harga

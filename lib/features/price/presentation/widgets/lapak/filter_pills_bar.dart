@@ -1,4 +1,4 @@
-// lib/widgets/lapak/filter_pills_bar.dart
+//lib/features/price/presentation/widgets/lapak/filter_pills_bar.dart
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -57,13 +57,13 @@ class LapakFilterPillsBar extends StatelessWidget {
               switchInCurve: Curves.easeOut,
               switchOutCurve: Curves.easeIn,
               transitionBuilder: (child, animation) {
-                final offsetAnim = Tween<Offset>(
-                  begin: const Offset(0.08, 0),
-                  end: Offset.zero,
-                ).animate(CurvedAnimation(
-                  parent: animation,
-                  curve: Curves.easeOut,
-                ));
+                final offsetAnim =
+                    Tween<Offset>(
+                      begin: const Offset(0.08, 0),
+                      end: Offset.zero,
+                    ).animate(
+                      CurvedAnimation(parent: animation, curve: Curves.easeOut),
+                    );
                 return FadeTransition(
                   opacity: animation,
                   child: SlideTransition(position: offsetAnim, child: child),
@@ -175,10 +175,7 @@ class _OutlinedPill extends StatelessWidget {
               const SizedBox(width: 6),
               Text(
                 label,
-                style: TextStyle(
-                  color: textColor,
-                  fontWeight: FontWeight.w600,
-                ),
+                style: TextStyle(color: textColor, fontWeight: FontWeight.w600),
               ),
             ],
           ),

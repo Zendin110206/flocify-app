@@ -14,17 +14,19 @@ class PostCreationWelcomeCard extends StatelessWidget {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            theme.colorScheme.primary.withAlpha((0.1*255).round()),
-            theme.colorScheme.secondary.withAlpha((0.05*255).round()),
+            theme.colorScheme.primary.withAlpha((0.1 * 255).round()),
+            theme.colorScheme.secondary.withAlpha((0.05 * 255).round()),
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: theme.colorScheme.primary.withAlpha((0.2*255).round())),
+        border: Border.all(
+          color: theme.colorScheme.primary.withAlpha((0.2 * 255).round()),
+        ),
         boxShadow: [
           BoxShadow(
-            color: theme.colorScheme.primary.withAlpha((0.1*255).round()),
+            color: theme.colorScheme.primary.withAlpha((0.1 * 255).round()),
             blurRadius: 20,
             offset: const Offset(0, 4),
           ),
@@ -38,7 +40,7 @@ class PostCreationWelcomeCard extends StatelessWidget {
               gradient: LinearGradient(
                 colors: [
                   theme.colorScheme.primary,
-                  theme.colorScheme.primary.withAlpha((0.8*255).round()),
+                  theme.colorScheme.primary.withAlpha((0.8 * 255).round()),
                 ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
@@ -46,7 +48,9 @@ class PostCreationWelcomeCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(16),
               boxShadow: [
                 BoxShadow(
-                  color: theme.colorScheme.primary.withAlpha((0.4*255).round()),
+                  color: theme.colorScheme.primary.withAlpha(
+                    (0.4 * 255).round(),
+                  ),
                   blurRadius: 12,
                   offset: const Offset(0, 4),
                 ),
@@ -75,7 +79,9 @@ class PostCreationWelcomeCard extends StatelessWidget {
                 Text(
                   'Setiap pengalaman adalah pembelajaran berharga untuk komunitas peternak',
                   style: theme.textTheme.bodyMedium?.copyWith(
-                    color: theme.colorScheme.onSurface.withAlpha((0.8*255).round()),
+                    color: theme.colorScheme.onSurface.withAlpha(
+                      (0.8 * 255).round(),
+                    ),
                     height: 1.4,
                   ),
                 ),

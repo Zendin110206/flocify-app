@@ -97,13 +97,13 @@ class _WelcomeScreenState extends State<WelcomeScreen>
             borderRadius: BorderRadius.circular(28),
             boxShadow: [
               BoxShadow(
-                color: const Color(0xFF1E88E5).withOpacity(0.25),
+                color: const Color(0xFF1E88E5).withAlpha((0.25*255).round()),
                 blurRadius: 24,
                 offset: const Offset(0, 12),
                 spreadRadius: 0,
               ),
               BoxShadow(
-                color: const Color(0xFF1E88E5).withOpacity(0.1),
+                color: const Color(0xFF1E88E5).withAlpha((0.1*255).round()),
                 blurRadius: 6,
                 offset: const Offset(0, 2),
               ),
@@ -170,14 +170,14 @@ class _WelcomeScreenState extends State<WelcomeScreen>
           height: 56,
           decoration: BoxDecoration(
             gradient: LinearGradient(
-              colors: [primaryColor, primaryColor.withOpacity(0.9)],
+              colors: [primaryColor, primaryColor.withAlpha((0.9*255).round())],
               begin: Alignment.centerLeft,
               end: Alignment.centerRight,
             ),
             borderRadius: BorderRadius.circular(16),
             boxShadow: [
               BoxShadow(
-                color: primaryColor.withOpacity(0.3),
+                color: primaryColor.withAlpha((0.3*255).round()),
                 blurRadius: 16,
                 offset: const Offset(0, 8),
                 spreadRadius: 0,
@@ -238,12 +238,12 @@ class _WelcomeScreenState extends State<WelcomeScreen>
             color: Colors.white,
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
-              color: primaryColor.withOpacity(0.2),
+              color: primaryColor.withAlpha((0.2*255).round()),
               width: 1.5,
             ),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.04),
+                color: Colors.black.withAlpha((0.04*255).round()),
                 blurRadius: 8,
                 offset: const Offset(0, 2),
               ),

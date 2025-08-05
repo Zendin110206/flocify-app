@@ -6,7 +6,6 @@ import '../models/detection_history.dart';
 part 'analysis_result.freezed.dart';
 part 'analysis_result.g.dart';
 
-
 @freezed
 class AnalysisResult with _$AnalysisResult {
   const factory AnalysisResult({

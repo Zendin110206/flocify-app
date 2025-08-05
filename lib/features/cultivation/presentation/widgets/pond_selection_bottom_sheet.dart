@@ -47,7 +47,7 @@ class PondSelectionBottomSheet {
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.15),
+                    color: Colors.black.withAlpha((0.15 * 255).round()),
                     blurRadius: 20,
                     offset: const Offset(0, -5),
                   ),
@@ -142,7 +142,7 @@ class _PondSelectionContentState extends ConsumerState<_PondSelectionContent> {
           Container(
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
-              color: themeColor.withOpacity(0.1),
+              color: themeColor.withAlpha((0.1 * 255).round()),
               borderRadius: BorderRadius.circular(12),
             ),
             child: Icon(Icons.water_drop_outlined, color: themeColor, size: 24),
@@ -256,12 +256,12 @@ class _PondSelectionContentState extends ConsumerState<_PondSelectionContent> {
                   ),
                   decoration: BoxDecoration(
                     color: isSelected
-                        ? themeColor.withOpacity(0.08)
+                        ? themeColor.withAlpha((0.08 * 255).round())
                         : Colors.transparent,
                     borderRadius: BorderRadius.circular(12),
                     border: isSelected
                         ? Border.all(
-                            color: themeColor.withOpacity(0.30),
+                            color: themeColor.withAlpha((0.30 * 255).round()),
                             width: 1.5,
                           )
                         : null,

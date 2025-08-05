@@ -1,4 +1,4 @@
-// lib/widgets/home/quick_stats.dart
+//lib/features/price/presentation/widgets/home/quick_stats.dart
 import 'package:flutter/material.dart';
 
 class QuickStatsSection extends StatelessWidget {
@@ -89,7 +89,7 @@ class QuickStatsSection extends StatelessWidget {
         border: Border.all(color: Colors.grey[200]!),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.04),
+            color: Colors.black.withAlpha((0.04*255).round()),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -103,7 +103,7 @@ class QuickStatsSection extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: color.withOpacity(0.1),
+                  color: color.withAlpha((0.1*255).round()),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Text(icon, style: const TextStyle(fontSize: 16)),

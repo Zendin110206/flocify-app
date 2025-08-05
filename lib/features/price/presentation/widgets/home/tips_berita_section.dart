@@ -28,7 +28,8 @@ class TipsSection extends StatelessWidget {
             TipCard(
               icon: '🌡️',
               title: 'Kontrol Suhu Air',
-              description: 'Jaga suhu air tetap stabil antara 26-30°C untuk pertumbuhan optimal ikan lele',
+              description:
+                  'Jaga suhu air tetap stabil antara 26-30°C untuk pertumbuhan optimal ikan lele',
               category: 'Lele',
               categoryColor: Color(0xFF2ECC71),
             ),
@@ -36,7 +37,8 @@ class TipsSection extends StatelessWidget {
             TipCard(
               icon: '🦐',
               title: 'Pemberian Pakan Udang',
-              description: 'Berikan pakan 3-4 kali sehari dengan porsi yang dapat dihabiskan dalam 2 jam',
+              description:
+                  'Berikan pakan 3-4 kali sehari dengan porsi yang dapat dihabiskan dalam 2 jam',
               category: 'Udang',
               categoryColor: Color(0xFFE67E22),
             ),
@@ -44,7 +46,8 @@ class TipsSection extends StatelessWidget {
             TipCard(
               icon: '💧',
               title: 'Kualitas Air Kolam',
-              description: 'Lakukan pengujian pH air secara berkala, pH ideal untuk ikan gurame adalah 6.5-7.5',
+              description:
+                  'Lakukan pengujian pH air secara berkala, pH ideal untuk ikan gurame adalah 6.5-7.5',
               category: 'Gurame',
               categoryColor: Color(0xFF3498DB),
             ),
@@ -81,7 +84,7 @@ class TipCard extends StatelessWidget {
         border: Border.all(color: Colors.grey[200]!),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.04),
+            color: Colors.black.withAlpha((0.04 * 255).round()),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -94,14 +97,11 @@ class TipCard extends StatelessWidget {
             width: 40,
             height: 40,
             decoration: BoxDecoration(
-              color: categoryColor.withOpacity(0.1),
+              color: categoryColor.withAlpha((0.1 * 255).round()),
               borderRadius: BorderRadius.circular(20),
             ),
             child: Center(
-              child: Text(
-                icon,
-                style: const TextStyle(fontSize: 20),
-              ),
+              child: Text(icon, style: const TextStyle(fontSize: 20)),
             ),
           ),
           const SizedBox(width: 12),
@@ -122,9 +122,12 @@ class TipCard extends StatelessWidget {
                       ),
                     ),
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 4,
+                      ),
                       decoration: BoxDecoration(
-                        color: categoryColor.withOpacity(0.1),
+                        color: categoryColor.withAlpha((0.1 * 255).round()),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Text(

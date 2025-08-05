@@ -1,4 +1,4 @@
-// lib/widgets/lapak/selection_bottom_sheet.dart
+//lib/features/price/presentation/widgets/lapak/selection_bottom_sheet.dart
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -45,7 +45,7 @@ class LapakSelectionBottomSheet {
             ),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.15),
+                color: Colors.black.withAlpha((0.15*255).round()),
                 blurRadius: 20,
                 spreadRadius: 0,
                 offset: const Offset(0, -5),
@@ -78,8 +78,8 @@ class LapakSelectionBottomSheet {
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                       colors: [
-                        const Color(0xFF638ECB).withOpacity(0.05),
-                        const Color(0xFF638ECB).withOpacity(0.02),
+                        const Color(0xFF638ECB).withAlpha((0.05*255).round()),
+                        const Color(0xFF638ECB).withAlpha((0.02*255).round()),
                       ],
                     ),
                     borderRadius: const BorderRadius.only(
@@ -92,7 +92,7 @@ class LapakSelectionBottomSheet {
                       Container(
                         padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
-                          color: const Color(0xFF638ECB).withOpacity(0.1),
+                          color: const Color(0xFF638ECB).withAlpha((0.1*255).round()),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: Icon(
@@ -236,14 +236,14 @@ class LapakSelectionBottomSheet {
                               ),
                               decoration: BoxDecoration(
                                 color: isSelected
-                                    ? const Color(0xFF638ECB).withOpacity(0.08)
+                                    ? const Color(0xFF638ECB).withAlpha((0.08*255).round())
                                     : Colors.transparent,
                                 borderRadius: BorderRadius.circular(12),
                                 border: isSelected
                                     ? Border.all(
                                         color: const Color(
                                           0xFF638ECB,
-                                        ).withOpacity(0.30),
+                                        ).withAlpha((0.30*255).round()),
                                         width: 1.5,
                                       )
                                     : null,
@@ -299,7 +299,7 @@ class LapakSelectionBottomSheet {
                                       decoration: BoxDecoration(
                                         color: const Color(
                                           0xFF638ECB,
-                                        ).withOpacity(0.10),
+                                        ).withAlpha((0.10*255).round()),
                                         borderRadius: BorderRadius.circular(6),
                                       ),
                                       child: const Icon(

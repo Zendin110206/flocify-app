@@ -1,4 +1,4 @@
-// Path: lib/features/pond_creation/presentation/widgets/step_2_pool_type.dart
+// Path: lib/features/asset_management/tab/pond_creation/presentation/widgets/step_2_pool_type.dart
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -62,7 +62,7 @@ class Step2PoolType extends ConsumerWidget {
             onTap: () =>
                 wizardController.selectPoolType(poolType['name'] as String),
           );
-        }).toList(),
+        })
       ],
     );
   }
@@ -97,7 +97,9 @@ class _PoolTypeCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         child: Ink(
           decoration: BoxDecoration(
-            color: isSelected ? primaryColor.withOpacity(0.05) : Colors.white,
+            color: isSelected
+                ? primaryColor.withAlpha((0.05 * 255).round())
+                : Colors.white,
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
               color: isSelected ? primaryColor : Colors.grey[200]!,
@@ -106,7 +108,7 @@ class _PoolTypeCard extends StatelessWidget {
             boxShadow: [
               if (!isSelected)
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.04),
+                  color: Colors.black.withAlpha((0.04 * 255).round()),
                   blurRadius: 8,
                   offset: const Offset(0, 2),
                 ),
@@ -128,7 +130,7 @@ class _PoolTypeCard extends StatelessWidget {
                           height: 50,
                           decoration: BoxDecoration(
                             color: isSelected
-                                ? primaryColor.withOpacity(0.1)
+                                ? primaryColor.withAlpha((0.1 * 255).round())
                                 : Colors.grey[100],
                             borderRadius: BorderRadius.circular(12),
                           ),

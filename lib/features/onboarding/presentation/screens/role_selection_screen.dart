@@ -115,7 +115,7 @@ class _RoleSelectionScreenState extends State<RoleSelectionScreen> {
                         borderRadius: BorderRadius.circular(16),
                       ),
                       elevation: _selectedRole != null ? 5 : 0,
-                      shadowColor: primaryColor.withOpacity(0.4),
+                      shadowColor: primaryColor.withAlpha((0.4*255).round()),
                     ),
                     onPressed: _selectedRole != null
                         ? _navigateToNextScreen
@@ -208,12 +208,12 @@ class _RoleCard extends StatelessWidget {
             width: isSelected ? 2 : 1.5,
           ),
           borderRadius: BorderRadius.circular(20),
-          color: isSelected ? cardPrimaryColor.withOpacity(0.05) : Colors.white,
+          color: isSelected ? cardPrimaryColor.withAlpha((0.05*255).round()) : Colors.white,
           boxShadow: [
             BoxShadow(
               color: isSelected
-                  ? cardPrimaryColor.withOpacity(0.1)
-                  : Colors.black.withOpacity(0.03),
+                  ? cardPrimaryColor.withAlpha((0.1*255).round())
+                  : Colors.black.withAlpha((0.03*255).round()),
               blurRadius: 15,
               offset: const Offset(0, 5),
             ),

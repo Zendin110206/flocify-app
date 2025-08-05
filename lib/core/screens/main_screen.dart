@@ -9,6 +9,7 @@ import 'package:proyek_flocify/features/auth/presentation/providers/auth_provide
 import 'package:proyek_flocify/features/home/presentation/screens/home_screen.dart';
 import 'package:proyek_flocify/features/asset_management/presentation/screens/asset_management_screen.dart';
 import 'package:proyek_flocify/features/cultivation/presentation/screens/cultivation_screen.dart';
+import 'package:proyek_flocify/features/settings/presentation/screens/settings_screen.dart';
 
 class HomePagePlaceholder extends ConsumerWidget {
   const HomePagePlaceholder({super.key});
@@ -50,7 +51,7 @@ class _MainScreenState extends State<MainScreen> {
     const ManagementScreen(), // Indeks 1
     const AssetManagementScreen(), // Indeks 2
     const CultivationScreen(), // Indeks 3
-    const Center(child: Text('Halaman Parameter')), // Indeks 4
+    const SettingsScreen(), // Indeks 4
   ];
 
   void _onTap(int index) {

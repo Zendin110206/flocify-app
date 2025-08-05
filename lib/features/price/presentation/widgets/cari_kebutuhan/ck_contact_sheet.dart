@@ -1,4 +1,4 @@
-// lib/widgets/cari_kebutuhan/ck_contact_sheet.dart
+//lib/features/price/presentation/widgets/cari_kebutuhan/ck_contact_sheet.dart
 import 'package:flutter/material.dart';
 import 'ck_colors.dart';
 
@@ -12,7 +12,6 @@ class CKContactSheet {
     required VoidCallback onWhatsApp,
     required VoidCallback onEmail,
   }) {
-
     return showModalBottomSheet(
       context: context,
       backgroundColor: CKColors.surface,
@@ -120,7 +119,7 @@ class CKContactSheet {
         width: 40,
         height: 40,
         decoration: BoxDecoration(
-          color: iconBg.withOpacity(0.08),
+          color: iconBg.withAlpha((0.08*255).round()),
           borderRadius: BorderRadius.circular(10),
         ),
         child: Icon(icon, color: iconBg),

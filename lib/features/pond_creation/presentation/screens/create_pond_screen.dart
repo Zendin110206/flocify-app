@@ -1,4 +1,4 @@
-// Path: lib/features/pond_creation/presentation/screens/create_pond_screen.dart
+// Path: lib/features/asset_management/tab/pond_creation/presentation/screens/create_pond_screen.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:proyek_flocify/features/pond_creation/domain/models/pond_wizard_state.dart';
@@ -51,7 +51,7 @@ class _CreatePondScreenState extends ConsumerState<CreatePondScreen> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 1,
-        shadowColor: Colors.black.withOpacity(0.05),
+        shadowColor: Colors.black.withAlpha((0.05*255).round()),
         leading: IconButton(
           icon: const Icon(Icons.close, color: Colors.black87),
           onPressed: () => Navigator.of(context).pop(),

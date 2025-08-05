@@ -132,7 +132,7 @@ class _DeviceConfigBottomSheetState
                 width: 56,
                 height: 56,
                 decoration: BoxDecoration(
-                  color: const Color(0xFF2563EB).withOpacity(0.1),
+                  color: const Color(0xFF2563EB).withAlpha((0.1 * 255).round()),
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: const Icon(
@@ -234,9 +234,7 @@ class _DeviceConfigBottomSheetState
           style: TextStyle(fontSize: 14, color: Colors.grey[600]),
         ),
         const SizedBox(height: 16),
-        ..._sensors.keys
-            .map((sensorName) => _buildSensorTile(sensorName))
-            .toList(),
+        ..._sensors.keys.map((sensorName) => _buildSensorTile(sensorName)),
       ],
     );
   }
@@ -255,12 +253,12 @@ class _DeviceConfigBottomSheetState
       margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
         color: isSelected
-            ? const Color(0xFF2563EB).withOpacity(0.05)
+            ? const Color(0xFF2563EB).withAlpha((0.05 * 255).round())
             : const Color(0xFFF9FAFB),
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
           color: isSelected
-              ? const Color(0xFF2563EB).withOpacity(0.3)
+              ? const Color(0xFF2563EB).withAlpha((0.3 * 255).round())
               : Colors.grey[300]!,
         ),
       ),
@@ -295,7 +293,7 @@ class _DeviceConfigBottomSheetState
         color: Colors.white,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withAlpha((0.05 * 255).round()),
             blurRadius: 10,
             offset: const Offset(0, -2),
           ),

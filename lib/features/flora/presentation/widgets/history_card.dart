@@ -31,8 +31,8 @@ class HistoryCard extends StatelessWidget {
                   width: 60,
                   height: 60,
                   fit: BoxFit.cover,
+
                   // Error handling jika gambar tidak ditemukan
-                  
                 ),
               ),
               const SizedBox(width: 16),

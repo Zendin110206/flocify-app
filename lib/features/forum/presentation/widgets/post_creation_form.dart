@@ -1,4 +1,4 @@
-// lib/features/forum/presentation/widgets/post_creation_form.dart
+// lib/features/home/tab/forum/presentation/widgets/post_creation_form.dart
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

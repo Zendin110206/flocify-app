@@ -165,7 +165,7 @@ class _VerificationScreenState extends ConsumerState<VerificationScreen>
         Container(
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
-            color: primaryColor.withOpacity(0.1),
+            color: primaryColor.withAlpha((0.1*255).round()),
             shape: BoxShape.circle,
           ),
           child: const Icon(
@@ -236,7 +236,7 @@ class _VerificationScreenState extends ConsumerState<VerificationScreen>
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: primaryColor.withOpacity(0.3),
+            color: primaryColor.withAlpha((0.3*255).round()),
             blurRadius: 20,
             offset: const Offset(0, 10),
           ),

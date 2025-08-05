@@ -37,7 +37,7 @@ class AssetTabs extends StatelessWidget {
         unselectedLabelColor: const Color(0xFF64748B),
         indicator: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
-          color: const Color(0xFF395886).withOpacity(0.15),
+          color: const Color(0xFF395886).withAlpha((0.15*255).round()),
         ),
 
         // ✅ 2. Hilangkan gap default

@@ -4,9 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:proyek_flocify/features/flora/domain/models/detection_history.dart';
 import '../providers/flora_providers.dart';
-import '../widgets/history_card.dart'; 
+import '../widgets/history_card.dart';
 import 'detection_detail_screen.dart';
-
 
 class HistoryScreen extends ConsumerWidget {
   const HistoryScreen({super.key});
@@ -46,13 +45,14 @@ class HistoryScreen extends ConsumerWidget {
       // 2. Gunakan .when() untuk menangani semua state secara otomatis
       body: historyAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (err, stack) => Center(child: Text('Gagal memuat riwayat: $err')),
+        error: (err, stack) =>
+            Center(child: Text('Gagal memuat riwayat: $err')),
         data: (historyList) {
           // 3. Jika tidak ada data, tampilkan pesan
           if (historyList.isEmpty) {
             return const Center(child: Text('Belum ada riwayat deteksi.'));
           }
-          
+
           // 4. Jika ada data, bangun ListView
           return ListView.builder(
             padding: const EdgeInsets.all(16),

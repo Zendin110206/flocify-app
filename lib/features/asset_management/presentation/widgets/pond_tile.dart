@@ -13,7 +13,7 @@ class PondTile extends StatelessWidget {
     final statusInfo = _getPondStatusInfo(pond.status);
     final cardBorderColor = pond.status == PondStatus.healthy
         ? const Color(0xFFE2E8F0)
-        : statusInfo.color.withOpacity(0.5);
+        : statusInfo.color.withAlpha((0.5*255).round());
     final formatter = NumberFormat.decimalPattern('id_ID');
 
     return InkWell(
@@ -38,7 +38,7 @@ class PondTile extends StatelessWidget {
               width: 48,
               height: 48,
               decoration: BoxDecoration(
-                color: const Color(0xFF3B82F6).withOpacity(0.1),
+                color: const Color(0xFF3B82F6).withAlpha((0.1*255).round()),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: const Icon(

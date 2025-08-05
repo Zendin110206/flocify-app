@@ -31,13 +31,13 @@ class PostCreationBottomActionBar extends ConsumerWidget {
         color: theme.colorScheme.surface,
         border: Border(
           top: BorderSide(
-            color: theme.colorScheme.outline.withAlpha((0.1*255).round()),
+            color: theme.colorScheme.outline.withAlpha((0.1 * 255).round()),
             width: 1,
           ),
         ),
         boxShadow: [
           BoxShadow(
-            color: theme.colorScheme.shadow.withAlpha((0.1*255).round()),
+            color: theme.colorScheme.shadow.withAlpha((0.1 * 255).round()),
             blurRadius: 20,
             offset: const Offset(0, -4),
           ),
@@ -69,7 +69,9 @@ class PostCreationBottomActionBar extends ConsumerWidget {
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: isFormValid
                             ? const Color(0xFF00B347)
-                            : theme.colorScheme.onSurface.withAlpha((0.6*255).round()),
+                            : theme.colorScheme.onSurface.withAlpha(
+                                (0.6 * 255).round(),
+                              ),
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -79,7 +81,9 @@ class PostCreationBottomActionBar extends ConsumerWidget {
                 Text(
                   state.formStatusMessage,
                   style: theme.textTheme.bodySmall?.copyWith(
-                    color: theme.colorScheme.onSurface.withAlpha((0.5*255).round()),
+                    color: theme.colorScheme.onSurface.withAlpha(
+                      (0.5 * 255).round(),
+                    ),
                     fontSize: 11,
                   ),
                 ),
@@ -98,7 +102,9 @@ class PostCreationBottomActionBar extends ConsumerWidget {
                     boxShadow: isFormValid && !state.isSubmitting
                         ? [
                             BoxShadow(
-                              color: theme.colorScheme.primary.withAlpha((0.4*255).round()),
+                              color: theme.colorScheme.primary.withAlpha(
+                                (0.4 * 255).round(),
+                              ),
                               blurRadius: 12,
                               offset: const Offset(0, 4),
                             ),
@@ -112,7 +118,9 @@ class PostCreationBottomActionBar extends ConsumerWidget {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: isFormValid
                           ? theme.colorScheme.primary
-                          : theme.colorScheme.outline.withAlpha((0.3*255).round()),
+                          : theme.colorScheme.outline.withAlpha(
+                              (0.3 * 255).round(),
+                            ),
                       foregroundColor: Colors.white,
                       padding: const EdgeInsets.symmetric(
                         horizontal: 24,

@@ -1,4 +1,4 @@
-// lib/screens/home_screen.dart
+//lib/features/price/presentation/screens/home_screen.dart
 
 import 'package:proyek_flocify/features/price/presentation/widgets/home/expert_consultation.dart';
 import 'package:proyek_flocify/features/price/presentation/widgets/home/featured_products.dart';

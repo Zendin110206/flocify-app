@@ -1,4 +1,4 @@
-// lib/widgets/home/trending_hashtags.dart
+//lib/features/price/presentation/widgets/home/trending_hashtags.dart
 import 'package:flutter/material.dart';
 
 class TrendingHashtagsSection extends StatelessWidget {
@@ -26,7 +26,7 @@ class TrendingHashtagsSection extends StatelessWidget {
             border: Border.all(color: Colors.grey[200]!),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.04),
+                color: Colors.black.withAlpha((0.04 * 255).round()),
                 blurRadius: 8,
                 offset: const Offset(0, 2),
               ),
@@ -39,7 +39,9 @@ class TrendingHashtagsSection extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color: const Color(0xFFE74C3C).withOpacity(0.1),
+                      color: const Color(
+                        0xFFE74C3C,
+                      ).withAlpha((0.1 * 255).round()),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: const Text('🔥', style: TextStyle(fontSize: 16)),
@@ -122,9 +124,9 @@ class HashtagChip extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         decoration: BoxDecoration(
-          color: color.withOpacity(0.1),
+          color: color.withAlpha((0.1 * 255).round()),
           borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: color.withOpacity(0.3)),
+          border: Border.all(color: color.withAlpha((0.3 * 255).round())),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
@@ -144,10 +146,7 @@ class HashtagChip extends StatelessWidget {
             const SizedBox(width: 6),
             Text(
               count,
-              style: TextStyle(
-                color: Colors.grey[600],
-                fontSize: 10,
-              ),
+              style: TextStyle(color: Colors.grey[600], fontSize: 10),
             ),
           ],
         ),

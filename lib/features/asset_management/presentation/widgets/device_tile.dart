@@ -16,10 +16,10 @@ class DeviceTile extends StatelessWidget {
         : const Color(0xFFEF4444);
     final cardBorderColor = isOnline
         ? const Color(0xFFE2E8F0)
-        : statusColor.withOpacity(0.5);
+        : statusColor.withAlpha((0.5*255).round());
     final iconBgColor = isOnline
-        ? const Color(0xFF638ECB).withOpacity(0.1)
-        : statusColor.withOpacity(0.1);
+        ? const Color(0xFF638ECB).withAlpha((0.1*255).round())
+        : statusColor.withAlpha((0.1*255).round());
     final iconColor = isOnline ? const Color(0xFF638ECB) : statusColor;
 
     return InkWell(

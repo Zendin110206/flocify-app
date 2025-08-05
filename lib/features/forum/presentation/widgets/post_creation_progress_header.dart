@@ -18,10 +18,10 @@ class PostCreationProgressHeader extends ConsumerWidget {
       // Margin top disesuaikan untuk berada di bawah AppBar
       padding: const EdgeInsets.fromLTRB(20, 16, 20, 16),
       decoration: BoxDecoration(
-        color: theme.colorScheme.surface.withAlpha((0.9*255).round()),
+        color: theme.colorScheme.surface.withAlpha((0.9 * 255).round()),
         border: Border(
           bottom: BorderSide(
-            color: theme.colorScheme.outline.withAlpha((0.1*255).round()),
+            color: theme.colorScheme.outline.withAlpha((0.1 * 255).round()),
             width: 1,
           ),
         ),
@@ -37,7 +37,9 @@ class PostCreationProgressHeader extends ConsumerWidget {
                     Text(
                       'Progres Penulisan',
                       style: theme.textTheme.bodySmall?.copyWith(
-                        color: theme.colorScheme.onSurface.withAlpha((0.7*255).round()),
+                        color: theme.colorScheme.onSurface.withAlpha(
+                          (0.7 * 255).round(),
+                        ),
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -58,10 +60,14 @@ class PostCreationProgressHeader extends ConsumerWidget {
                   vertical: 6,
                 ),
                 decoration: BoxDecoration(
-                  color: theme.colorScheme.primaryContainer.withAlpha((0.5*255).round()),
+                  color: theme.colorScheme.primaryContainer.withAlpha(
+                    (0.5 * 255).round(),
+                  ),
                   borderRadius: BorderRadius.circular(20),
                   border: Border.all(
-                    color: theme.colorScheme.primary.withAlpha((0.3*255).round()),
+                    color: theme.colorScheme.primary.withAlpha(
+                      (0.3 * 255).round(),
+                    ),
                   ),
                 ),
                 child: Text(
@@ -80,7 +86,9 @@ class PostCreationProgressHeader extends ConsumerWidget {
             child: LinearProgressIndicator(
               value: progress,
               minHeight: 6,
-              backgroundColor: theme.colorScheme.outline.withAlpha((0.2*255).round()),
+              backgroundColor: theme.colorScheme.outline.withAlpha(
+                (0.2 * 255).round(),
+              ),
               valueColor: AlwaysStoppedAnimation(
                 progress >= 1.0
                     ? const Color(0xFF00E676)

@@ -1,4 +1,4 @@
-// lib/widgets/cari_kebutuhan/ck_request_card.dart
+//lib/features/price/presentation/widgets/cari_kebutuhan/ck_request_card.dart
 import 'package:flutter/material.dart';
 import 'ck_colors.dart';
 
@@ -88,7 +88,7 @@ class CKRequestCard extends StatelessWidget {
         border: Border.all(color: CKColors.border),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.02),
+            color: Colors.black.withAlpha((0.02 * 255).round()),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -273,7 +273,7 @@ class CKRequestCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
       decoration: BoxDecoration(
-        color: c.withOpacity(0.1),
+        color: c.withAlpha((0.1 * 2555).round()),
         borderRadius: BorderRadius.circular(4),
       ),
       child: Text(
