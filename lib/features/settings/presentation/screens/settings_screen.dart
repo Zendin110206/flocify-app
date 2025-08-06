@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../widgets/settings_menu_item.dart';
+import 'package:proyek_flocify/features/presets/presentation/screens/preset_list_screen.dart';
 
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
@@ -49,7 +50,12 @@ class SettingsScreen extends ConsumerWidget {
             icon: Icons.biotech_outlined,
             title: 'Preset Budidaya',
             onTap: () {
-              /* TODO: Navigasi ke halaman Preset */
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const PresetListScreen(),
+                ),
+              );
             },
           ),
           SettingsMenuItem(
